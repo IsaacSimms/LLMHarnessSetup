@@ -1,4 +1,4 @@
-# Global CLAUDE.md
+# Global CLAUDE.md OR GROK.md
 
 ## Coding Conventions
 
