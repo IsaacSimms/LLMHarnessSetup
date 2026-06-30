@@ -2,7 +2,7 @@
 name: recap-thread
 description: >
   Produce a concise, structured Markdown recap of the conversation that just happened, then save it
-  as a .md file. Use this whenever the user wants a record of work that is finished or winding down —
+  as a .md file. Use when the user wants a record of work that is finished or winding down —
   phrases like "recap this", "summarize what we did", "write this up", "wrap up this thread",
   "document this fix", "log this", "save a summary", or "capture what we just figured out". Works for
   ANY kind of thread: break-fix and troubleshooting, ideation and brainstorming, research, or
@@ -11,6 +11,8 @@ description: >
   when the user is CONTINUING the same work in a fresh session and needs to carry context forward
   (forward-looking). When a "summary" request is ambiguous: if the user is staying put and wants a
   keepsake or knowledge-base entry, choose recap-thread.
+metadata:
+  short-description: "Save a backward-looking thread recap"
 ---
 
 # Recap Thread
@@ -104,18 +106,11 @@ The recap is always written to a `.md` file. The filename is the same everywhere
 (e.g. `2026-06-10-pxe-cert-corruption.md`). If a file with that name already exists in the target
 directory, append `-2`, `-3`, etc. so nothing is overwritten.
 
-Pick the destination based on the environment you are running in:
+Save to `~/.grok/summaries/`. Create the directory if it doesn't exist. After saving, tell the user
+the full path.
 
-- **Claude Code (or any session with a persistent home directory):** Save to `~/.claude/summaries/`.
-  Create the directory if it doesn't exist (`mkdir -p ~/.claude/summaries`). After saving, tell the
-  user the full path.
-
-- **Claude.ai or any sandboxed session where files are downloaded (the `present_files` tool is
-  available and the filesystem is ephemeral):** Save to `/mnt/user-data/outputs/` and then present the
-  file with `present_files` so the user can download it. Do not rely on the path persisting.
-
-If you are unsure which case you're in: if a `present_files`-style download tool is available, use the
-download path; otherwise save to `~/.claude/summaries/`.
+If the session is sandboxed and only supports download-style output, save to the session outputs path
+and present the file for download instead.
 
 ---
 
@@ -124,3 +119,9 @@ download path; otherwise save to `~/.claude/summaries/`.
 Keep it brief. Confirm where the file was saved (or present it for download), and optionally show the
 TL;DR inline so the user sees the gist without opening the file. Do not paste the entire document back
 into the chat — the file is the deliverable.
+
+---
+
+## After saving the recap, sweep context.md and Claude.md
+
+Sweep the repo to see if you are in a directory with a `context.md` and/or `Claude.md` file. If so, analyze them and determine if any updates to those files are warranted based on the recap. If updates are needed, discuss with the user what changes should be made. If not, leave them as-is.
