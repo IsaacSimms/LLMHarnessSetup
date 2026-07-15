@@ -32,9 +32,6 @@ Expects direct pushback when wrong; don't cave to incorrect challenges
 No affirmations ("you're right", "good thought", "definitely")
 Concise and direct
 
-## VS Debugger
-When investigating bugs, unexpected behavior, or test failures in code open in Visual Studio, use the vs-debugger MCP tools to debug interactively rather than guessing. This works for any language VS supports (C#, C++, Python, TypeScript, etc.). Call `vs_status` first to confirm VS is connected, set breakpoints with `vs_set_breakpoint`, then `vs_launch` to start debugging. Use `vs_get_locals`, `vs_evaluate`, and `vs_get_callstack` to inspect state at breakpoints. VS must be running at the same elevation level as Claude Code.
-
 ## Approval & Plan Mode — CRITICAL
 
 **Approvals to implement are explicit and unambiguous.** Do NOT interpret a stated preference, opinion, or design discussion as permission to make a change.
