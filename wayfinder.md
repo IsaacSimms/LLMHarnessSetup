@@ -144,14 +144,50 @@ invents its own answers has failed, silently, and poisoned every decision downst
 | Type | Mode | How to resolve |
 |---|---|---|
 | `grilling` | HITL | Invoke `grill-me`. The default case. |
-| `research` | AFK | Spawn a subagent to read docs, APIs, or codebases outside this repo. |
-| `prototype` | HITL | Build a cheap, rough artifact to react to. Link it; do not paste it. |
+| `research` | AFK | Invoke the `research` skill. It reads and recommends; you decide and close. |
+| `prototype` | HITL | Build a cheap, throwaway artifact to react to. See below. Link it; do not paste it. |
 | `task` | either | Manual work that must happen before a decision can be made. |
 
 **`task` is the one type that does rather than decides.** It earns its place only by
 unblocking a decision — provisioning access so an API can be judged, moving data so its shape
 can be seen. If a task would deliver part of the destination, it is not a task; it is a work
 item, and it belongs after the map closes.
+
+## Prototype tickets
+
+A prototype is **throwaway code that answers a question**. Its purpose is to raise the
+fidelity of the discussion — to give the user something concrete to react to, because the
+useful signal is "wait, that shouldn't be possible," and that signal never arrives from prose.
+
+**Build it in whatever the production artifact would be.** A PowerShell question gets a
+PowerShell script. A Blazor question gets a page with switchable variants. A state-model
+question gets a console app. Do not pick a prototype *format* and then translate the question
+into it.
+
+Before writing any of it, write the question at the top of the file. A prototype that answers
+the wrong question is pure waste, and the question is what makes that checkable.
+
+Put the answer-bearing logic behind a small pure **interface** — a reducer, a state machine,
+a set of pure functions, whichever fits the question. That module is the part worth keeping;
+the shell around it is disposable. Nothing flows from the shell into the module.
+
+Rules:
+
+- **Throwaway from day one**, and named so a casual reader can tell.
+- **One command to run.** Whatever the project's runner is — `dotnet run`, a script path, a
+  `just` recipe. The user must not have to remember a path.
+- **In-memory state only**, unless persistence is itself the question.
+- **No tests, no error handling beyond runnable, no abstractions, no "what if we later".**
+  A prototype that needs tests has stopped being a prototype.
+- **Surface the full state after every action** so the user sees exactly what changed.
+- **UI variants must differ structurally** — layout, information hierarchy, primary affordance.
+  Recolored variants are wallpaper. Three by default, five is the cap.
+
+Hand it over and let the user drive it. Add actions they ask for; prototypes evolve.
+
+On close, write the ticket's Answer — the judgment and the reasoning. Commit the prototype to
+a throwaway branch and link it from the ticket as an asset. Main keeps the validated decision
+and nothing else: prototype code left in the main branch rots fast and misleads the next reader.
 
 ## Fog of war
 
@@ -232,8 +268,12 @@ Anything you cannot specify stays in the fog.
 
 ### 5. Fire research subagents
 
-For every `research` ticket just created, spawn a subagent in parallel. Each writes its
-findings to a file, and its ticket's Answer section records the decision plus a link.
+For every `research` ticket just created, invoke the `research` skill in parallel. Each
+subagent writes one file to `docs/plans/<map-slug>/research/`, named after its ticket's slug.
+
+A research subagent never closes its own ticket. When the findings return, weigh the
+recommendation against the map's Destination and constraints — which the subagent never saw —
+then write the ticket's Answer yourself and link the research file as an asset.
 
 ### 6. Stop
 
