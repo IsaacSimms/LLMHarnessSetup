@@ -65,6 +65,24 @@ them to the source that owns the claim, cite that, and drop the intermediary.
 
 When a T3 source contradicts T1, T1 wins and the contradiction is itself worth recording.
 
+### Executing code as a source
+
+Sometimes the only trustworthy source is calling the thing — an API whose docs are silent or
+wrong, a provider whose return shape is undocumented. Establishing a fact this way is research,
+not prototyping: the output is a fact, not a judgment.
+
+Hard limits, no exceptions, regardless of how the question is phrased:
+
+- **Read-only operations only.** No writes, no mutations, no deletes, no state changes.
+- **Non-production only.** Dev, test, or scratch tenants and environments. Never a production
+  endpoint, tenant, subscription, or database.
+- **No credential creation or elevation.** Use credentials already provisioned for the session.
+- **Stop and ask** if answering the question would require crossing any of the above. An
+  unanswered question is a valid result; an unsupervised background agent mutating a live
+  tenant is not.
+
+Record what was executed, against what environment, in the findings.
+
 ## Stopping rule
 
 Stop when **the question posed is answered**, or when **three consecutive sources add nothing
@@ -144,6 +162,10 @@ cited as evidence. Tag every claim with its tier.
 Stop when the question is answered, or when three consecutive sources add nothing new.
 Hard ceiling ~20 fetches. If you hit the ceiling unresolved, report confidence:
 inconclusive — do not pad.
+
+If answering requires executing code against a real system: read-only operations only,
+non-production environments only, no mutations, no credential creation. If the question
+cannot be answered within those limits, stop and report that — do not cross them.
 
 Write exactly one file, in the format specified by the `research` skill. Do not edit any
 other file, do not write code, do not close any ticket. Return the file path and a
