@@ -69,3 +69,4 @@ Then:
 | Multi-session decision map | `wayfinder` → `docs/plans/` |
 | Continue work in a new session | `thread-handoff` → `docs/handoffs/` |
 | Work finished; durable record | `recap-thread` → `docs/recaps/` |
+| Verify implement slice | `check-work` → chat; optional `docs/checks/` |
