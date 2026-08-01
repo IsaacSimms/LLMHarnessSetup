@@ -1,4 +1,4 @@
-b---
+---
 name: recap-thread
 description: >
   Produce a concise, structured Markdown recap of the conversation that just happened, then save it
@@ -33,6 +33,7 @@ that is `thread-handoff`. Audience: humans and **CLI coding agents** (Grok Build
 | Work **continues** in a fresh session | `thread-handoff` | `docs/handoffs/` |
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
 | Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
+| Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
 
 ---
 
