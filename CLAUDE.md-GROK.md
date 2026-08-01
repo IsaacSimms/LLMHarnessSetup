@@ -1,4 +1,4 @@
-# Global CLAUDE.md OR GROK.md
+# Global agent instructions
 
 ## Coding Conventions
 
@@ -12,19 +12,25 @@ For multi-line or longer messages that aren't block titles, place the comment on
 
 For single-line comments about a specific line of code, place the comment on the same line. Leave space between the code and the comment, and align inline comments with each other where practical. Alignment is a preference, not a strict rule.
 
+Prefer useful title/block comments on sizable or unique code (methods, classes, non-obvious blocks) so a human who did not write the code can navigate it. Do not over-comment or narrate the obvious.
+
 ### XML Summary Comments (`/// <summary>`)
 Only use `/// <summary>` XML doc comments for class-level, interface-level, or file-level documentation (i.e., describing an entire class/interface/enum). Do NOT use `/// <summary>` on individual properties, fields, enum members, or single methods. For those, use a standard inline `//` comment on the same line as the code. Similarly, do not use `/// <inheritdoc />` — it adds no real value.
 
-If a specific framework, architecture, service, programming langauge, or any entity related to the work that is currently being done has any naming conventions, best practices, guidelines, that are in place for best outcomes with that entity, follow those.
+If a specific framework, architecture, service, programming language, or any entity related to the work that is currently being done has any naming conventions, best practices, guidelines, that are in place for best outcomes with that entity, follow those.
 
 ## General
-When you are Overwriting a file, I want an explination of what change, why it changed, and how that will effect the codebase/project. I would prefer you use inline changes whenever possible.
+When you are Overwriting a file, I want an explanation of what changed, why it changed, and how that will affect the codebase/project. I would prefer you use inline changes whenever possible.
 
-I want you to do test driven devleopment whenever possible.
+I want you to do test-driven development whenever possible. For non-trivial work, use the **tdd** skill (public interface, vertical slices, red-green-refactor).
 
-I am reviewing every line of code and I expect clean, elegant, best practices, professional work. 
+I am reviewing every line of code and I expect clean, elegant, best practices, professional work.
 
 Attempt to edit and refactor existing code whenever possible, only create new code or new files whenever absolutely required. This applies to when you are asked to edit, change, update, or create functionalities and codebases. This applies to when you are asked to debug.
+
+After non-trivial implementation, **offer** the **check-work** skill (or equivalent verification). Do not treat the work as done until verification PASSes or the user explicitly waives it. Do not auto-run check-work without the user accepting the offer (unless they invoked verify themselves).
+
+Prefer project-documented build/test commands when present. Otherwise default to: **.NET** → `dotnet build` / `dotnet test`; **PowerShell** → Pester when tests exist. Details live in the check-work skill.
 
 ## Interaction preferences
 
@@ -38,9 +44,30 @@ Concise and direct
 
 **In plan mode, make zero file changes. None. Ever.** Plan mode means produce a plan only. Do not create, edit, or delete any file — not even a "small" one — regardless of how confident you are. Wait for an explicit implementation instruction outside of plan mode.
 
+## Workflow (CLI agents)
+
+1. Hard or multi-decision work → **grill-me** (or **wayfinder** if multi-session fog / many open decisions)
+2. Settled, implementable work → **plan-as-artifact** → `docs/artifacts/`
+3. Implement with the **tdd** skill when non-trivial
+4. Offer / run **check-work** before treating implement as done (user may waive)
+5. Session transfer → **thread-handoff** (`docs/handoffs/`); finished record → **recap-thread** (`docs/recaps/`)
+
+## Project docs layout
+
+Agent-written durable markdown (when those skills run):
+
+| Path | Skill / use |
+|------|-------------|
+| `docs/artifacts/` | plan-as-artifact |
+| `docs/recaps/` | recap-thread |
+| `docs/handoffs/` | thread-handoff |
+| `docs/checks/` | check-work (optional save; force-save after failed fix loops) |
+| `docs/plans/` | wayfinder maps (unchanged) |
+
+Path resolution for creating these folders is defined in the skills (cwd `docs/` first; else walk up and ask).
 
 ## Ubiquitous Language
-Shared vocabulary between the user and the LLM. Use these terms exactly — don't substitute "component," "service," "API," or "boundary." Consistent language is the whole point. All of the words listed below have thier own meaning outside of our Ubiqitous Language as well. If you are pulling from this list as you think or talk to the user, put (UL) next to the output. 
+Shared vocabulary between the user and the LLM. Use these terms exactly — don't substitute "component," "service," "API," or "boundary." Consistent language is the whole point. All of the words listed below have their own meaning outside of our Ubiquitous Language as well. If you are pulling from this list as you think or talk to the user, put (UL) next to the output.
 
 **Module**
 Anything with an interface and an implementation. Deliberately scale-agnostic — applies equally to a function, class, package, or tier-spanning slice.
@@ -70,7 +97,7 @@ What callers get from depth. More capability per unit of interface they have to 
 What maintainers get from depth. Change, bugs, knowledge, and verification concentrate at one place rather than spreading across callers. Fix once, fixed everywhere.
 
 **Scan**
-Delibrately and intentionally analyze the file, codebase, or resource in its entirety. Ask user to define scope if needed. 
+Deliberately and intentionally analyze the file, codebase, or resource in its entirety. Ask user to define scope if needed.
 
 ## Principles
 
