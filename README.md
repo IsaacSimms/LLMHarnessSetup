@@ -1,4 +1,4 @@
-agent harness
+### agent harness
 
 Personal global instructions and skills for **CLI coding agents** (Claude Code, Grok Build, and peers).  
 This repo is the source of truth I keep up to date and copy into the agent config directories on each machine.
