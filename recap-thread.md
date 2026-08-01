@@ -1,33 +1,57 @@
----
+b---
 name: recap-thread
 description: >
   Produce a concise, structured Markdown recap of the conversation that just happened, then save it
-  as a .md file. Use when the user wants a record of work that is finished or winding down —
-  phrases like "recap this", "summarize what we did", "write this up", "wrap up this thread",
-  "document this fix", "log this", "save a summary", or "capture what we just figured out". Works for
-  ANY kind of thread: break-fix and troubleshooting, ideation and brainstorming, research, or
-  planning. IMPORTANT boundary with the thread-handoff skill: use recap-thread when the work is DONE
-  and the user wants a durable record of what happened (backward-looking). Use thread-handoff instead
-  when the user is CONTINUING the same work in a fresh session and needs to carry context forward
-  (forward-looking). When a "summary" request is ambiguous: if the user is staying put and wants a
-  keepsake or knowledge-base entry, choose recap-thread.
+  under docs/recaps/ in the project. Use when the user wants a record of work that is finished or
+  winding down — phrases like "recap this", "summarize what we did", "write this up", "wrap up this
+  thread", "document this fix", "log this", "save a summary", or "capture what we just figured out".
+  Works for ANY kind of thread: break-fix, ideation, research, or planning. IMPORTANT boundary with
+  thread-handoff: use recap-thread when the work is DONE and the user wants a durable record
+  (backward-looking). Use thread-handoff when the user is CONTINUING the same work in a fresh session
+  (forward-looking). When "summary" is ambiguous: if the user is staying put and wants a keepsake,
+  choose recap-thread.
 metadata:
-  short-description: "Save a backward-looking thread recap"
+  short-description: "Save a backward-looking thread recap under docs/recaps"
 ---
 
 # Recap Thread
 
-Your job is to produce a **lightweight, structured recap** of the conversation that just happened and
-save it as a `.md` file. This is a *backward-looking record* — it captures what the thread was about
-and where it ended up, so the user has a durable artifact to file, search, or share later.
+Produce a **lightweight, structured recap** of the conversation and save it as a `.md` file under
+**`docs/recaps/`**. This is a *backward-looking record* — what the thread was about and where it
+ended — for filing, search, or share later.
 
-This is deliberately lighter than a full handoff document. It is not meant to let a fresh session
-resume the work; it is meant to be a clean record of what happened. If the user actually wants to
-continue the work elsewhere, that is the `thread-handoff` skill's job, not this one.
+It is deliberately lighter than a handoff. It is **not** meant to let a fresh session resume work;
+that is `thread-handoff`. Audience: humans and **CLI coding agents** (Grok Build, Claude Code, peers).
 
-The recap must work for **any** kind of thread — a break-fix, an ideation session, a research dive, a
-planning discussion. Use the single structure below for all of them; the section *names* are generic
-on purpose so they hold any content. Sections that genuinely have nothing in them are omitted.
+---
+
+## Routing (which skill)
+
+| Situation | Skill | Location |
+|-----------|--------|----------|
+| Work **done**; durable record of what happened | `recap-thread` | `docs/recaps/` |
+| Work **continues** in a fresh session | `thread-handoff` | `docs/handoffs/` |
+| Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
+| Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
+
+---
+
+## Resolve docs output directory
+
+Shared by any skill that writes under `docs/`. This skill's subfolder is **`recaps`**.
+
+1. Start at the agent **cwd**.
+2. If **`docs/` exists in cwd** → write under `{cwd}/docs/recaps/`. Create `recaps` if missing.
+   **Do not ask.**
+3. If no `docs/` in cwd → walk **up** looking for a **`docs/`** directory and/or a **git root**
+   (`.git`).
+4. If either is found → **ask the user** where to place the file. Offer defaults:
+   - Nearest parent `docs/` → `{that-docs}/recaps/`
+   - Git root without `docs/` → create `{git-root}/docs/recaps/`
+   - If both exist and differ, list both; recommend nearest `docs/`
+5. If walk-up finds **nothing** → **ask**, default: create `{cwd}/docs/recaps/`.
+
+Create intermediate directories as needed. Do **not** use home-dir folders as the primary write target.
 
 ---
 
@@ -85,43 +109,48 @@ their state. Omit if none.>
 
 ## Density & Quality Rules
 
-- **Lighter than a handoff. Density, not length.** There is no word cap, but every sentence earns its
-  place. Length should scale with how substantial the thread was — a quick fix gets a few lines, a
-  sprawling design session gets more.
-- **Concrete over abstract.** Name the actual files, commands, error codes, hostnames, and decisions.
-  "Fixed the boot issue" is weak. "Cleared stale PXE cert rows in the SQL DB, deleted RemoteInstall,
-  error 0x80092002 resolved" is right.
+- **Lighter than a handoff. Density, not length.** Length scales with how substantial the thread was.
+- **Concrete over abstract.** Name actual files, commands, error codes, hostnames, decisions.
 - **No padding.** Skip "it may be worth noting", "in conclusion", and similar filler.
-- **Summarize the work, not the chit-chat.** Capture substance and outcomes, not the back-and-forth.
-- **Flag inferences.** If something is inferred rather than stated, mark it *(inferred)*.
-- **Preserve the user's terminology.** If they call it a "task sequence", call it that.
+- **Summarize the work, not the chit-chat.**
+- **Flag inferences.** Mark inferred facts *(inferred)*.
+- **Preserve the user's terminology.**
 
 ---
 
 ## Where to Save
 
-The recap is always written to a `.md` file. The filename is the same everywhere:
+Filename: **`YYYY-MM-DD-topic-slug.md`** — today's date, then a kebab-case slug of ~3–6 words
+(e.g. `2026-06-10-pxe-cert-corruption.md`). If that name exists in the target directory, append
+`-2`, `-3`, etc. so nothing is overwritten.
 
-**`YYYY-MM-DD-topic-slug.md`** — today's date, then a kebab-case slug of ~3–6 words from the topic
-(e.g. `2026-06-10-pxe-cert-corruption.md`). If a file with that name already exists in the target
-directory, append `-2`, `-3`, etc. so nothing is overwritten.
+Write to `{resolved-docs}/recaps/{filename}` using **Resolve docs output directory** above.
 
-Save to `~/.grok/summaries/`. Create the directory if it doesn't exist. After saving, tell the user
-the full path.
+After saving, tell the user the full path.
 
-If the session is sandboxed and only supports download-style output, save to the session outputs path
-and present the file for download instead.
+**Legacy:** Older recaps may live under `~/.grok/summaries/`. Do **not** auto-migrate. When the
+user asks to find a recap and nothing is under `docs/recaps/`, search that legacy path and confirm
+before treating a hit as the answer.
+
+If the session is sandboxed and only supports download-style output, save to the session outputs
+path and present the file for download instead.
 
 ---
 
 ## After Saving
 
-Keep it brief. Confirm where the file was saved (or present it for download), and optionally show the
-TL;DR inline so the user sees the gist without opening the file. Do not paste the entire document back
-into the chat — the file is the deliverable.
+Keep it brief. Confirm where the file was saved (or present it for download), and optionally show
+the TL;DR inline. Do **not** paste the entire document back into the chat — the file is the
+deliverable.
 
 ---
 
-## After saving the recap, sweep context.md and Claude.md
+## Context file sweep (after save)
 
-Sweep the repo to see if you are in a directory with a `context.md` and/or `Claude.md` file. If so, analyze them and determine if any updates to those files are warranted based on the recap. If updates are needed, discuss with the user what changes should be made. If not, leave them as-is.
+After saving, check the resolved project root for any of:
+
+`CONTEXT.md`, `Context.md`, `context.md`, `Claude.md`, `GROK.md`, `AGENTS.md`
+
+If present, decide whether the recap implies durable project knowledge that belongs in those files.
+If updates seem warranted, **discuss with the user before editing** — never silent rewrite. If not
+warranted, leave them as-is.
