@@ -32,6 +32,7 @@ The file is the source of truth. Do **not** paste the full document into chat.
 | Work **continues** in a fresh session | `thread-handoff` | `docs/handoffs/` |
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
 | Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
+| Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
 
 A handoff may **link** a plan under `docs/artifacts/`; it does not replace the plan. Prefer
 `plan-as-artifact` when the deliverable is a multi-phase execution contract rather than session
