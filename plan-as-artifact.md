@@ -34,6 +34,7 @@ TL;DR, and **stop** unless the user explicitly says to implement or continue.
 | Work **continues** in a fresh session | `thread-handoff` | `docs/handoffs/` |
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
 | Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
+| Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
 
 If the effort is still foggy (major branches unresolved), **stop and offer wayfinder** instead of
 writing a fake phase list. A handoff may **link** a plan path; it does not replace the plan.
