@@ -1,102 +1,135 @@
 ---
 name: thread-handoff
 description: >
-  Generates a structured handoff document so a completely fresh session can pick up exactly
-  where this one left off — with no context loss. Covers two handoff modes:
+  Generates a structured handoff document and saves it under docs/handoffs/ so a completely fresh
+  CLI session can pick up exactly where this one left off. Covers two handoff modes:
   (1) implementation-to-implementation: resuming in-progress work in a new thread, and
-  (2) ideation-to-implementation: handing a finalized design to an agent whose job is to
-  pressure-test then build it.
-  Use whenever the user says things like "summarize this thread for a new session", "I'm starting
-  a new thread", "context is getting long", "reset incoming", "handoff", "thread summary for a
-  new chat", "write the handoff doc", or anything implying the current conversation is ending and
-  work needs to continue elsewhere. Always trigger proactively if the user says they're about to
-  start fresh or the conversation has been going long and they want to preserve progress.
+  (2) ideation-to-implementation: handing a finalized design to an agent that pressure-tests then
+  builds. Use when the user says "summarize this thread for a new session", "I'm starting a new
+  thread", "context is getting long", "reset incoming", "handoff", "thread summary for a new chat",
+  "write the handoff doc", or anything implying the conversation is ending and work continues
+  elsewhere. Trigger proactively if the user is about to start fresh or wants to preserve progress.
+  Use recap-thread instead when work is DONE and they only want a backward-looking record.
+metadata:
+  short-description: "Forward-looking handoff under docs/handoffs"
 ---
 
 # Thread Handoff Skill
 
-Your job is to produce a **Thread Handoff Document** — a dense, structured summary that allows a
-completely fresh Claude session (with zero memory of this conversation) to immediately understand
-context and act without asking redundant questions.
+Produce a **Thread Handoff Document** — dense, structured — so a completely fresh session (zero
+memory of this conversation) can act without redundant questions. **Always write the file** under
+**`docs/handoffs/`**. Audience: **CLI coding agents** (Grok Build, Claude Code, peers) and the human.
+
+The file is the source of truth. Do **not** paste the full document into chat.
+
+---
+
+## Routing (which skill)
+
+| Situation | Skill | Location |
+|-----------|--------|----------|
+| Work **done**; durable record of what happened | `recap-thread` | `docs/recaps/` |
+| Work **continues** in a fresh session | `thread-handoff` | `docs/handoffs/` |
+| Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
+| Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
+
+A handoff may **link** a plan under `docs/artifacts/`; it does not replace the plan. Prefer
+`plan-as-artifact` when the deliverable is a multi-phase execution contract rather than session
+transfer.
+
+---
+
+## Resolve docs output directory
+
+Shared by any skill that writes under `docs/`. This skill's subfolder is **`handoffs`**.
+
+1. Start at the agent **cwd**.
+2. If **`docs/` exists in cwd** → write under `{cwd}/docs/handoffs/`. Create `handoffs` if missing.
+   **Do not ask.**
+3. If no `docs/` in cwd → walk **up** looking for a **`docs/`** directory and/or a **git root**
+   (`.git`).
+4. If either is found → **ask the user** where to place the file. Offer defaults:
+   - Nearest parent `docs/` → `{that-docs}/handoffs/`
+   - Git root without `docs/` → create `{git-root}/docs/handoffs/`
+   - If both exist and differ, list both; recommend nearest `docs/`
+5. If walk-up finds **nothing** → **ask**, default: create `{cwd}/docs/handoffs/`.
+
+Create intermediate directories as needed. Do **not** use home-dir folders as the primary write target.
 
 ---
 
 ## Step 1: Determine Handoff Mode
 
-Before writing, classify the thread into one of two modes:
+Before writing, classify the thread:
 
 **Mode A — Implementation Handoff**
-The thread was doing active implementation work (writing code, building scripts, configuring
-systems, debugging). Work exists in some state. The new thread resumes where this one left off.
+Active implementation work (code, scripts, config, debugging). The new thread resumes in place.
 
 **Mode B — Ideation Handoff**
-The thread was designing, speccing, or deciding — not building. The output is a fully-specified
-design. The new thread's job is to pressure-test the design then implement it.
+Designing / speccing / deciding — not building. The new thread pressure-tests the design then
+implements.
 
-State the mode explicitly at the top of the document. If the thread had both phases (started
-ideating, then began implementing), use Mode A but include an "Original Design" section.
+State the mode explicitly at the top of the document. If the thread had both phases, use Mode A but
+include an "Original Design" section.
+
+---
+
+## Step 2: Resolve filename and write the file
+
+Filename: **`YYYY-MM-DD-topic-slug.md`** (today's date + kebab-case slug, ~3–6 words). If the name
+exists, append `-2`, `-3`, etc.
+
+Write to `{resolved-docs}/handoffs/{filename}`.
 
 ---
 
-## Step 2: Write the Handoff Document
-
----
+## Step 3: Handoff document body
 
 ### [MODE LABEL] — Thread Handoff Document
 
 State at the top:
+
 > **Handoff Mode: [Implementation | Ideation → Implementation]**
 > **Receiving agent job: [Resume and continue | Pressure-test this design, then implement]**
 
 ---
 
 ### 1. Thread Purpose (2–4 sentences)
-What was this conversation trying to accomplish? State the goal and scope plainly.
-For ideation handoffs, state what is now fully decided and ready for implementation.
+What this conversation was trying to accomplish. For ideation handoffs, what is fully decided and
+ready for implementation.
 
 ---
 
 ### 2. Stack & Environment
-*(Include only what was actually discussed or confirmed)*
+*(Only what was discussed or confirmed)*
 - Languages, frameworks, runtimes
-- Tools, IDEs, CLIs in use
-- Platform/OS context (e.g., Windows, SCCM env, Azure tenant)
+- Tools, CLIs in use
+- Platform/OS context
 - Infrastructure or deployment context
 
 ---
 
 ### 3A. [Mode A only] What Was Accomplished
-Ordered list of completed work — decisions made, implementations done, problems solved.
-Specific over vague: "Wrote `Deploy-WSLKernel.ps1` targeting SYSTEM account with fallback
-logging to `C:\Windows\Temp\`" not "wrote a deployment script."
+Ordered list of completed work. Specific over vague: name files, commands, outcomes.
 
 ### 3B. [Mode B only] Full Specification
-The complete, finalized design as decided in this thread. This is the authoritative spec the
-implementation agent will build from. Include every load-bearing decision:
-- Architecture / component breakdown
-- Data models, schemas, contracts
-- Behavior rules, edge cases, constraints
-- Named conventions and taxonomy
-- Anything that was explicitly finalized ("everything load-bearing is decided")
-
-Do not summarize — reproduce the design with enough fidelity that implementation can begin
-without re-asking any design question.
+Complete finalized design — architecture, data models, contracts, behavior rules, edge cases,
+constraints, conventions. Enough fidelity that implementation can begin without re-asking design
+questions.
 
 ---
 
 ### 4A. [Mode A only] Current State
-Exactly where things stand. What exists, what is partially done, what is broken.
-This is the "you are here" marker.
+Where things stand: what exists, partial, broken. The "you are here" marker.
 
 ### 4B. [Mode B only] What Is NOT Yet Decided
-List any open questions, deferred choices, or things explicitly left for the implementation
-agent to resolve during pressure-testing. If nothing is open, state that explicitly:
-"All load-bearing decisions are made. No open design questions remain."
+Open questions left for pressure-testing. If none: "All load-bearing decisions are made. No open
+design questions remain."
 
 ---
 
 ### 5. Key Decisions & Rationale
-Non-obvious decisions made in this thread and *why*. The new thread must not re-litigate these.
+Non-obvious decisions and *why*. The new thread must not re-litigate these.
 
 | Decision | Rationale |
 |----------|-----------|
@@ -105,63 +138,62 @@ Non-obvious decisions made in this thread and *why*. The new thread must not re-
 ---
 
 ### 6. [Mode A only] Blockers & Open Questions
-Unresolved issues, things that failed, questions raised but not answered.
-Each item: what it is, what was tried, what the next step is.
+Unresolved issues: what it is, what was tried, next step.
 
 ---
 
 ### 7. Next Steps (Ordered)
-Numbered list. First item = exactly what the new thread starts on.
-Specific enough to act immediately.
+Numbered. First item = exactly what the new thread starts on.
 
-For Mode B, step 1 is always: "Pressure-test the spec in §3B before writing any code.
-Challenge assumptions, surface contradictions, identify missing edge cases."
+For Mode B, step 1 is always: pressure-test the spec in §3B before writing any code.
 
 ---
 
 ### 8. Must-Knows for the New Thread
-Critical context that doesn't fit above but would cause mistakes or redundant questions:
-- Constraints discovered mid-thread
-- User conventions and non-negotiables
-- Pitfalls already hit ("tried X, breaks because Y")
-- Tone/framing the user expects from the new agent
+Constraints, user non-negotiables, pitfalls already hit, expected tone/framing.
 
 ---
 
 ### 9. Relevant Artifacts
-*(Mode A primarily; Mode B if any reference docs or partial drafts exist)*
-- File name / location
-- What it does
-- Current state (complete, draft, broken, needs review)
-
-For short critical snippets, include inline. For long artifacts, describe and note location.
+File paths, plans under `docs/artifacts/`, configs, partial drafts — name, role, state.
 
 ---
 
 ## Tone & Quality Rules
 
 - **Dense, not verbose.** Every sentence earns its place.
-- **Concrete over abstract.** Name the files, commands, error messages, variable names.
-- **No hedging filler.** Cut "it might be worth noting" and "you may want to consider."
-- **Preserve exact terminology.** If the user calls it a "detection method," call it that.
-- **Flag inference.** If something is inferred rather than explicitly confirmed: *(inferred)*
-- **Don't summarize the conversation.** Summarize the *work and its state* (Mode A) or
-  the *design and its decisions* (Mode B).
+- **Concrete over abstract.** Name files, commands, errors, variables.
+- **No hedging filler.**
+- **Preserve exact terminology.**
+- **Flag inference** with *(inferred)*.
+- **Don't summarize the conversation.** Summarize work state (A) or design decisions (B).
 
 ---
 
-## Closing: Ready-to-Paste Opener
+## Step 4: Confirm and short opener
 
-End the document with the appropriate paste-in opener for the new thread:
+After writing the file:
+
+1. Report the **full path**
+2. Give a **short** paste-ready opener that points at the **file** (not the full body)
 
 **Mode A:**
-> **Paste into new thread:**
-> "Picking up from a previous session. Here's the handoff: [paste document]
-> Confirm you have context and flag anything unclear before we continue."
+
+> Read `docs/handoffs/{filename}` and continue from that handoff. Confirm you have context and flag
+> anything unclear before continuing.
 
 **Mode B:**
-> **Paste into new thread:**
-> "Here's a fully-specified feature design from an ideation session. Your job is to
-> pressure-test this spec first — challenge assumptions, surface gaps, identify contradictions —
-> then implement it once we've aligned. Here's the spec: [paste document]
-> Start by grilling the design before writing any code."
+
+> Read `docs/handoffs/{filename}`. Pressure-test the design first — challenge assumptions, surface
+> gaps, identify contradictions — then implement once aligned. Do not start coding until the spec
+> holds up.
+
+Do **not** dump the full handoff into chat.
+
+---
+
+## Loading a handoff later
+
+If the user asks to load a handoff without a path: search `docs/handoffs/` (resolve project as in
+write). Confirm the match. There is no primary home-dir legacy location for handoffs (they were
+chat-only before); if the user points at an old paste or other path, use that.
