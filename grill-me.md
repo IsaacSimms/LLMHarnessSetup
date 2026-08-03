@@ -9,9 +9,9 @@ metadata:
   short-description: "Stress-test a plan via structured Q&A"
 ---
 
-Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
+Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions. For each question, provide your recommended answer.
 
-Ask the questions one at a time.
+Split the questions into batches, each batch containing two or three questions. Ask one batch at a time. If the answer to one question is a dependency which affects how you ask a different question, do not put them in the same batch. Ask all questions that act as dependencies first. After each batch is answered, review the question and answer set to determine if any question needs to be discussed again. Do not hesitate to bring up an already answered question again as we work through the batches.
 
 Feel free to force me to write in answers to the questions if needed. But, if asking me a question, then giving me 3, 4, 5 however many options to answer is applicable, do that. I would like to keep the grill-me process fast wherever possible. When giving me options, always be willing to still take a handwritten answer from me.
 
@@ -31,7 +31,7 @@ After each resolved answer, carry a short **Settled so far** list into the next 
 
 ### Short accepts
 
-Treat `A`, `yup a`, `yes`, and similar as a full accept of the labeled option — or of the **Recommended** option if they only affirm and one was marked recommended. Note what settled in one line; do not re-dump the full options table.
+Treat A, yup a, yes, and similar as a full accept of the labeled option — or of the Recommended option if the user only affirms recommendation and one was marked as such. Note what settled in one line; do not re-dump the full options table. Use best judgment when analyzing the user response to make sure you understand the answer to each question. For example, if three options were asked and the response is "A B A", then the answer to question one is A, the answer to question two is B, and the answer to question three is A. The user may answer in full sentences for one question, then respond with a short accept for the next question. If there is not clear understanding of the answer to each question, ask the user for clarification.
 
 ### Freeform answers
 
