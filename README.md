@@ -97,7 +97,7 @@ Filenames:
 | `build-context-doc` | Generate/update project `Context.md` |
 | `improve-codebase-architecture` | Deepening / interface design opportunities |
 | `research` | High-trust research with captured findings |
-| `learn` | teach tightly-scoped skill |
+| `learn` | Teach tightly-scoped skill |
 | `to-prd` | Conversation → PRD |
 | `diagnose` | Diagnostic workflow |
 
