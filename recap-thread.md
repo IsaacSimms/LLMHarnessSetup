@@ -9,9 +9,11 @@ description: >
   thread-handoff: use recap-thread when the work is DONE and the user wants a durable record
   (backward-looking). Use thread-handoff when the user is CONTINUING the same work in a fresh session
   (forward-looking). When "summary" is ambiguous: if the user is staying put and wants a keepsake,
-  choose recap-thread.
+  choose recap-thread. After the recap is saved, merge durable project knowledge into context and
+  agent-instruction docs in the same run, without asking, and close with a short note on what those
+  docs gained.
 metadata:
-  short-description: "Save a backward-looking thread recap under docs/recaps"
+  short-description: "Save a thread recap and merge durable facts into context docs"
 ---
 
 # Recap Thread
@@ -34,6 +36,9 @@ that is `thread-handoff`. Audience: humans and **CLI coding agents** (Grok Build
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
 | Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
 | Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
+| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+
+Standing up the whole tree is `create-docs-folder`. This skill still resolves its own output directory and creates only its own leaf when it writes.
 
 ---
 
@@ -144,14 +149,63 @@ Keep it brief. Confirm where the file was saved (or present it for download), an
 the TL;DR inline. Do **not** paste the entire document back into the chat — the file is the
 deliverable.
 
+Then run **Context file sweep** below before you finish. The last part of the reply is that
+section's closing blurb. The blurb is chat only — do not add a section to the recap for it.
+
 ---
 
 ## Context file sweep (after save)
 
-After saving, check the resolved project root for any of:
+After the recap is on disk, merge durable project knowledge into the context docs in the same run.
+Do **not** ask permission to edit.
 
-`CONTEXT.md`, `Context.md`, `context.md`, `Claude.md`, `GROK.md`, `AGENTS.md`
+### When an update is needed
 
-If present, decide whether the recap implies durable project knowledge that belongs in those files.
-If updates seem warranted, **discuss with the user before editing** — never silent rewrite. If not
-warranted, leave them as-is.
+Update a doc only when a future session would be wrong without the fact: settled decisions,
+conventions, architecture, commands, paths, and invariants.
+
+Leave the docs alone when the thread's residue is narrative, open questions, or one-off debug
+steps. The recap already holds those. Skip a recap-path pointer unless that path is itself the
+durable fact.
+
+### Which files
+
+Look in the project root that owns the resolved `docs/` directory. Match these names in any
+casing, at that root only:
+
+- **Agent instructions:** `AGENTS.md`, `CLAUDE.md`, `GROK.md`, `GEMINI.md`, `AGENT.md`,
+  `.cursorrules`, and `.github/copilot-instructions.md`
+- **Project context:** `CONTEXT.md`
+
+Leave `.cursor/rules/` alone.
+
+Route by role. Agent-instruction files receive standing rules and workflow. `CONTEXT.md` receives
+architecture and project facts. When only one of these files exists, put the fact there. When
+several exist, each fact goes to the file whose role owns it. If a fact fits none of the files
+that are present, skip it and name that skip in the blurb.
+
+### How to edit
+
+Surgical merge. Change the section that already owns the fact. When no section owns it, add the
+smallest bullet or paragraph in the closest existing section. Leave unrelated sections as they
+are. Do not add a dated changelog. Do not commit.
+
+### Contradictions
+
+When the new fact contradicts an existing line, replace that line.
+
+Stop and ask before editing a line only when that edit would:
+
+- reverse a standing safety or approval rule (plan mode, commit and push policy, secrets,
+  production access, or a written "never do X"), or
+- choose a side between two context docs that already disagree, and this thread never says which
+  wins.
+
+Apply every other warranted edit in the same sweep, including ordinary contradictions. For a
+pressing line, leave that line unchanged until the user answers, and say what you held back.
+
+### Closing blurb
+
+End the reply with about two sentences. Name each file you changed and what it gained. When you
+replaced a line, name the old fact and the new one. When you changed nothing, one sentence is
+enough: the context docs were left unchanged.

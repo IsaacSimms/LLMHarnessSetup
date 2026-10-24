@@ -33,6 +33,9 @@ The file is the source of truth. Do **not** paste the full document into chat.
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
 | Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
 | Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
+| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+
+Standing up the whole tree is `create-docs-folder`. This skill still resolves its own output directory and creates only its own leaf when it writes.
 
 A handoff may **link** a plan under `docs/artifacts/`; it does not replace the plan. Prefer
 `plan-as-artifact` when the deliverable is a multi-phase execution contract rather than session

@@ -47,6 +47,7 @@ docs/plans/<map-slug>/
 
 Rules:
 
+- **Scaffold** — `docs/plans/` is a leaf `create-docs-folder` scaffolds. This skill still creates `docs/plans/<map-slug>/` when it writes a map.
 - **Numbering** — zero-padded, sequential, allocated per directory. Before creating a ticket
   or work item, list the directory and take the next number. Numbers are never reused, even
   after deletion.

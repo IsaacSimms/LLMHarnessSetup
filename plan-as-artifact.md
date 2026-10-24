@@ -35,6 +35,9 @@ TL;DR, and **stop** unless the user explicitly says to implement or continue.
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
 | Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
 | Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
+| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+
+Standing up the whole tree is `create-docs-folder`. This skill still resolves its own output directory and creates only its own leaf when it writes.
 
 If the effort is still foggy (major branches unresolved), **stop and offer wayfinder** instead of
 writing a fake phase list. A handoff may **link** a plan path; it does not replace the plan.

@@ -52,6 +52,8 @@ Concise and direct
 4. Offer / run **check-work** before treating implement as done (user may waive)
 5. Session transfer → **thread-handoff** (`docs/handoffs/`); finished record → **recap-thread** (`docs/recaps/`)
 
+Standing up the whole `docs/` tree is **create-docs-folder**, and only when the user asks for a docs folder. The skills above still create only their own leaf when they write.
+
 ## Project docs layout
 
 Agent-written durable markdown (when those skills run):
@@ -63,8 +65,12 @@ Agent-written durable markdown (when those skills run):
 | `docs/handoffs/` | thread-handoff |
 | `docs/checks/` | check-work (optional save; force-save after failed fix loops) |
 | `docs/plans/` | wayfinder maps (unchanged) |
+| `docs/research/` | research standalone notes |
+| `docs/misc/` | no convention |
 
-Path resolution for creating these folders is defined in the skills (cwd `docs/` first; else walk up and ask).
+`create-docs-folder` creates those leaves with a `.gitkeep` in each empty one. It does not add a README under `docs/`, a `.gitignore` rule, or a file-type directory such as `screenshots/`.
+
+Path resolution for creating these folders is defined in the skills (cwd `docs/` first; else walk up and ask). `create-docs-folder` uses that walk only when the user names no directory. A directory they name is the project.
 
 ## Ubiquitous Language
 Shared vocabulary between the user and the LLM. Use these terms exactly — don't substitute "component," "service," "API," or "boundary." Consistent language is the whole point. All of the words listed below have their own meaning outside of our Ubiquitous Language as well. If you are pulling from this list as you think or talk to the user, put (UL) next to the output.
