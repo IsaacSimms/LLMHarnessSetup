@@ -4,8 +4,7 @@ description: >
   Test-driven development with red-green-refactor loop. Use when user wants to build features or fix
   bugs using TDD, mentions "red-green-refactor", wants integration tests, or asks for test-first
   development. Also trigger when user asks how to write tests for a feature, wants to add test coverage,
-  or says things like "let's TDD this" or "write tests first". When a user wants to implement any
-  non-trivial feature or fix a bug with quality guarantees, suggest TDD as the approach and use this skill.
+  or says things like "let's TDD this" or "write tests first".
 metadata:
   short-description: "Red-green-refactor test-driven development"
 ---
@@ -16,13 +15,13 @@ metadata:
 
 **Core principle**: Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't.
 
-Good tests exercise real behavior at the **Module**'s public **Interface** (UL) — the surface callers and tests share. They describe *what* the system does, not *how*. A ood test reads like a spec: `"user can checkout with valid cart"` tells you exactly what capability exists. Prefer fewer, deeper tests over many shallow ones. These tests survive refactors because they don't care about internal structure.
+Good tests exercise real behavior at the public interface — the surface callers and tests share. They describe *what* the system does, not *how*. A good test reads like a spec: `"user can checkout with valid cart"` tells you exactly what capability exists. Prefer fewer, deeper tests over many shallow ones. These tests survive refactors because they don't care about internal structure.
 
-A pure function with no collaborators can still be a correct unit test if it only crosses that interface. "Deep" here means leverage at the interface, not "always cross process/DB/network."
+A pure function with no collaborators can still be a correct unit test if it only crosses that interface. "Deep" here means a lot of behavior behind a small interface, not "always cross process, a database, or the network."
 
-Bad tests are coupled to implementation: they mock past the **Seam** (UL) under test, test private methods, or verify through external means (querying a DB directly instead of using the public interface). Warning sign: your test breaks when you refactor but behavior hasn't changed.
+Bad tests are coupled to implementation: they mock past the seam under test, test private methods, or verify through external means (querying a database directly instead of using the public interface). Warning sign: your test breaks when you refactor but behavior hasn't changed.
 
-**Fakes/mocks are valid only at a real seam** — where more than one **Adapter** (UL) exists or the collaborator is truly external (network, clock, OS). One adapter means a hypothetical seam; don't invent doubles for internals.
+**Fakes and mocks are valid only at a real seam** — where more than one adapter exists, or the collaborator is truly external (network, clock, OS). One adapter is a hypothetical seam. Don't invent doubles for internals.
 
 ---
 

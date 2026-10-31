@@ -4,8 +4,7 @@ description: >
   Verify completed or in-progress work by delegating to the verifier-check subagent.
   Claimed behavior must be present, and the project's build and tests must pass.
   Use when the user says "check work", "verify changes", "self-verify", "/check-work",
-  "/check", "/verify", or "/self-verify", or when offering verification after a non-trivial
-  implement slice. Optional: save the report under docs/checks/ when the user asks to save
+  "/check", "/verify", or "/self-verify". Optional: save the report under docs/checks/ when the user asks to save
   a check-work doc; force-save there after three failed fix loops.
 metadata:
   short-description: "Verify work via verifier-check"
@@ -45,7 +44,6 @@ check-work is a **gate**, not a redesign session. Deep code-judo belongs in `cod
 | Mode | Behavior |
 |------|----------|
 | **Explicit** | User runs `/check-work`, `/check`, `/verify`, or asks to verify/check work. |
-| **Offer** | After claiming a **non-trivial implement** slice is done (phase complete, “ready for review”), **offer** check-work once. Do **not** auto-run without the user accepting. |
 | **Skip** | Pure design/grill/plan/Q&A with no code or operational deliverable. |
 
 Optional focus: `/check-work [focus area]` — put that area in the task message. `verifier-check` centers on it.
