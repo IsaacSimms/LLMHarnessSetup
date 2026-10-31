@@ -1,6 +1,6 @@
 # agent harness
 
-Personal global instructions and skills for **CLI coding agents** (Claude Code, Grok Build, and peers).  
+Personal global instructions and skills for **Coding agents** (Cursor CLI, Claude Code, and peers).  
 This repo is the source of truth I keep up to date and copy into the agent config directories on each machine.
 
 ---
@@ -9,8 +9,9 @@ This repo is the source of truth I keep up to date and copy into the agent confi
 
 | Piece | Role |
 |--------|------|
-| **Global instructions** (`CLAUDE.md` / mirrored as `GROK.md`) | Standing rules: coding style, approvals, plan mode, TDD, ubiquitous language (depth, seams, modules), workflow |
-| **Skills** (`<skill>.md` at the repo root) | On-demand playbooks. Cursor CLI reads the matching `~/.cursor/skills/<skill>/SKILL.md`. |
+| **Global instructions** (`AGENTS.md`) | Standing rules: coding style, approvals, plan mode, TDD, ubiquitous language (depth, seams, modules), workflow. Cursor copy is `~/.cursor/AGENTS.md`. |
+| **Skills** (`<skill>.md` at the repo root, plus `improve-codebase-architecture/`) | On-demand playbooks. Cursor CLI reads `~/.cursor/skills/<skill>/SKILL.md`. |
+| **Subagents** (`Subagents/*.md`) | `researcher` and `verifier-check`. Cursor loads `~/.cursor/agents/`. |
 
 Agents should **not** invent parallel processes when a skill already covers the job.
 
@@ -21,22 +22,22 @@ Agents should **not** invent parallel processes when a skill already covers the 
 Copy (or symlink) into the agent’s user config, for example:
 
 ```text
-# Claude Code
-CLAUDE.md  →  ~/.claude/CLAUDE.md
-skills/*   →  ~/.claude/skills/
-
-# Grok Build (same content policy)
-GROK.md    →  ~/.grok/rules/GROK.md
-skills/*   →  ~/.grok/skills/
-
 # Cursor CLI
-<skill>.md →  ~/.cursor/skills/<skill>/SKILL.md
+AGENTS.md                      →  ~/.cursor/AGENTS.md
+<skill>.md                     →  ~/.cursor/skills/<skill>/SKILL.md
+improve-codebase-architecture/ →  ~/.cursor/skills/improve-codebase-architecture/
+Subagents/*.md                 →  ~/.cursor/agents/*.md
 
-# Cursor subagents
-Subagents/*.md →  ~/.cursor/agents/*.md
+# Claude Code
+AGENTS.md  →  ~/.claude/CLAUDE.md
+skills     →  ~/.claude/skills/
+
+# Grok Build (peer)
+AGENTS.md  →  ~/.grok/rules/GROK.md
+skills     →  ~/.grok/skills/
 ```
 
-**Policy:** `CLAUDE.md` and `GROK.md` stay **fully identical**. Shared skills stay **fully identical** across trees. After editing a root `<skill>.md`, copy it to `~/.cursor/skills/<skill>/SKILL.md` and to the Claude and Grok installs. Cursor loads subagents from `~/.cursor/agents/`, not from this repo's `Subagents/` folder. After editing a file there, copy it to `~/.cursor/agents/`.
+**Policy:** Repo `AGENTS.md` and `~/.cursor/AGENTS.md` stay **fully identical**. Peer copies of that same text (`~/.claude/CLAUDE.md`, `~/.grok/rules/GROK.md`) stay identical when those installs exist. Shared skills stay **fully identical** across trees. After editing a root `<skill>.md`, copy it to `~/.cursor/skills/<skill>/SKILL.md` and to the Claude and Grok skill dirs. After editing `improve-codebase-architecture/`, copy that folder to `~/.cursor/skills/improve-codebase-architecture/` and to those same peer skill dirs. Cursor loads subagents from `~/.cursor/agents/`, not from this repo's `Subagents/` folder. After editing a file there, copy it to `~/.cursor/agents/`.
 
 ---
 
@@ -49,6 +50,9 @@ grill-me  →  plan-as-artifact  →  implement (tdd)  →  check-work
            docs/artifacts/        offer verify
                                          ↓
                     handoff (continue) / recap (done)
+
+grill-me close may instead be implement directly (no plan file).
+research is a session gate: external facts → researcher; this session decides.
 ```
 
 `create-docs-folder` is optional and user-invoked. The later skills still create their own leaf when they write.
@@ -57,14 +61,16 @@ grill-me  →  plan-as-artifact  →  implement (tdd)  →  check-work
 |------|--------|------|
 | Scaffold the docs tree | `create-docs-folder` | User asks for a docs folder for a project or directory |
 | Stress-test decisions | `grill-me` | Design forks, multi-branch choices |
+| Implement from the grill | `grill-me` | User picks implement directly. That is permission to implement in this thread. No plan file. |
 | Multi-session fog | `wayfinder` | Too big for one session; decision map under `docs/plans/` |
-| Execution contract | `plan-as-artifact` | Settled work ready to implement |
+| Execution contract | `plan-as-artifact` | Settled work, unless the grill close was implement directly |
 | Build | `tdd` | Non-trivial features/fixes |
-| Verify | `check-work` | After a non-trivial implement slice (offer; don’t auto-run) |
+| Verify | `check-work` | After a non-trivial implement slice (offer; don’t auto-run). Delegates to `verifier-check`. |
 | Continue elsewhere | `thread-handoff` | Forward-looking session transfer |
 | Close the book | `recap-thread` | Backward-looking durable record |
+| External facts | `research` | Session gate. `researcher` reads and recommends. This session decides. |
 
-**Approvals:** A preference or design discussion is **not** permission to implement. Plan mode = zero file changes until an explicit implement instruction.
+**Approvals:** A preference or design discussion is **not** permission to implement. Plan mode does not change code, and does not create, edit, or delete any file the user did not ask for. A skill the user just invoked may write only its own doc.
 
 ---
 
@@ -118,8 +124,6 @@ Filenames:
 | `improve-codebase-architecture` | Deepening / interface design opportunities |
 | `research` | Research via `researcher`: one findings file; parent decides |
 | `learn` | Teach tightly-scoped skill |
-| `to-prd` | Conversation → PRD |
-| `diagnose` | Diagnostic workflow |
 
 Platform-only skills (e.g. Grok `help`, `imagine`) may live only in a specific agent install and are not required in this repo.
 
@@ -127,16 +131,16 @@ Platform-only skills (e.g. Grok `help`, `imagine`) may live only in a specific a
 
 ## Global instructions (highlights)
 
-The full rules live in `CLAUDE.md`. Non-negotiables:
+The full rules live in `AGENTS.md`. Non-negotiables:
 
-- **Plan mode:** zero file edits until explicit implement approval  
+- **Plan mode:** no code changes, and no file the user did not ask for. A skill just invoked may write only its own doc. Implementation waits for an explicit instruction.  
 - **TDD** for non-trivial work (use the `tdd` skill)  
-- **Offer check-work** after non-trivial implement; done = PASS or user waive  
-- **Edit existing code first**; new files only when required  
+- **Offer check-work** after non-trivial implement; it delegates to `verifier-check`; done = PASS or user waive  
+- **Edit existing code first**; new files only when required. A skill the user just invoked may write only its own doc.  
 - **Ubiquitous language:** Module, Interface, Implementation, Depth, Seam, Adapter, Leverage, Locality, Scan — mark `(UL)` when using these terms  
 - **Pushback** when wrong; no empty affirmations; concise  
 - **Comments:** title blocks + useful comments on sizable/unique code; don’t narrate the obvious  
-- **Stack defaults:** prefer project scripts; else .NET → `dotnet build`/`test`, PowerShell → Pester when present  
+- **Stack defaults:** prefer project scripts; else `verifier-check` defaults: .NET → `dotnet build`/`test`, PowerShell → Pester, Node → `npm test`, Python → pytest  
 
 ---
 
@@ -152,9 +156,9 @@ The full rules live in `CLAUDE.md`. Non-negotiables:
 ## Contributing to this repo (personal)
 
 1. Edit skills / global instructions here first.  
-2. Keep skill bodies **agent-neutral** (CLI coding agents, not a single product name).  
+2. Keep skill bodies **agent-neutral** (Coding agents, not a single product name).  
 3. Prefer **additions** over rewrites of working text.  
-4. Sync to `~/.claude`, `~/.grok`, and `~/.cursor/skills` (or equivalent) after merge.  
+4. Sync `AGENTS.md` to `~/.cursor/AGENTS.md`. Sync root skills and `improve-codebase-architecture/` to `~/.cursor/skills`, and `Subagents/` to `~/.cursor/agents/`. Peer installs (`~/.claude`, `~/.grok`, or equivalent) get the same text.  
 5. If a skill writes under `docs/`, use the shared path-resolution rules above. Scaffolding the tree is `create-docs-folder`.  
 
 ---
