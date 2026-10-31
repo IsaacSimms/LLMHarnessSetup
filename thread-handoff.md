@@ -4,8 +4,8 @@ description: >
   Generates a structured handoff document and saves it under docs/handoffs/ so a completely fresh
   CLI session can pick up exactly where this one left off. Covers two handoff modes:
   (1) implementation-to-implementation: resuming in-progress work in a new thread, and
-  (2) ideation-to-implementation: handing a finalized design to an agent that pressure-tests then
-  builds. Use when the user says "summarize this thread for a new session", "I'm starting a new
+  (2) ideation-to-implementation: handing a finalized design to an agent that pressure-tests it,
+  then waits for an explicit implement instruction before writing code. Use when the user says "summarize this thread for a new session", "I'm starting a new
   thread", "context is getting long", "reset incoming", "handoff", "thread summary for a new chat",
   "write the handoff doc", or anything implying the conversation is ending and work continues
   elsewhere. Trigger proactively if the user is about to start fresh or wants to preserve progress.
@@ -70,8 +70,8 @@ Before writing, classify the thread:
 Active implementation work (code, scripts, config, debugging). The new thread resumes in place.
 
 **Mode B — Ideation Handoff**
-Designing / speccing / deciding — not building. The new thread pressure-tests the design then
-implements.
+Designing / speccing / deciding — not building. The new thread pressure-tests the design, then
+waits for an explicit implement instruction before writing code.
 
 State the mode explicitly at the top of the document. If the thread had both phases, use Mode A but
 include an "Original Design" section.
@@ -94,7 +94,7 @@ Write to `{resolved-docs}/handoffs/{filename}`.
 State at the top:
 
 > **Handoff Mode: [Implementation | Ideation → Implementation]**
-> **Receiving agent job: [Resume and continue | Pressure-test this design, then implement]**
+> **Receiving agent job: [Resume and continue | Pressure-test this design, then wait for an explicit implement instruction]**
 
 ---
 
@@ -149,7 +149,8 @@ Unresolved issues: what it is, what was tried, next step.
 ### 7. Next Steps (Ordered)
 Numbered. First item = exactly what the new thread starts on.
 
-For Mode B, step 1 is always: pressure-test the spec in §3B before writing any code.
+For Mode B, the list ends at the pressure test. Step 1 is always: pressure-test the spec in §3B.
+Do not add a step that writes code. Writing code waits for an explicit implement instruction.
 
 ---
 
@@ -189,8 +190,8 @@ After writing the file:
 **Mode B:**
 
 > Read `docs/handoffs/{filename}`. Pressure-test the design first — challenge assumptions, surface
-> gaps, identify contradictions — then implement once aligned. Do not start coding until the spec
-> holds up.
+> gaps, identify contradictions. Stop there. Writing code waits for an explicit implement
+> instruction.
 
 Do **not** dump the full handoff into chat.
 

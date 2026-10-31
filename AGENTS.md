@@ -26,11 +26,11 @@ I want you to do test-driven development whenever possible. For non-trivial work
 
 I am reviewing every line of code and I expect clean, elegant, best practices, professional work.
 
-Attempt to edit and refactor existing code whenever possible, only create new code or new files whenever absolutely required. This applies to when you are asked to edit, change, update, or create functionalities and codebases. This applies to when you are asked to debug.
+Attempt to edit and refactor existing code whenever possible. Create new code or new files only when required. This applies when you are asked to edit, change, update, or create functionalities and codebases, and when you are asked to debug. A skill the user just invoked may write only its own doc.
 
-After non-trivial implementation, **offer** the **check-work** skill (or equivalent verification). Do not treat the work as done until verification PASSes or the user explicitly waives it. Do not auto-run check-work without the user accepting the offer (unless they invoked verify themselves).
+After non-trivial implementation, **offer** the **check-work** skill (or equivalent verification). It delegates to **verifier-check**. Do not treat the work as done until verification PASSes or the user explicitly waives it. Do not auto-run check-work without the user accepting the offer (unless they invoked verify themselves).
 
-Prefer project-documented build/test commands when present. Otherwise default to: **.NET** → `dotnet build` / `dotnet test`; **PowerShell** → Pester when tests exist. Details live in the check-work skill.
+Prefer project-documented build/test commands when present. Otherwise use the defaults **verifier-check** uses: **.NET** → `dotnet build` / `dotnet test`; **PowerShell** → Pester; **Node** → `npm test`; **Python** → pytest.
 
 ## Interaction preferences
 
@@ -42,15 +42,17 @@ Concise and direct
 
 **Approvals to implement are explicit and unambiguous.** Do NOT interpret a stated preference, opinion, or design discussion as permission to make a change.
 
-**In plan mode, make zero file changes. None. Ever.** Plan mode means produce a plan only. Do not create, edit, or delete any file — not even a "small" one — regardless of how confident you are. Wait for an explicit implementation instruction outside of plan mode.
+**In plan mode, do not change code, and do not create, edit, or delete any file the user did not ask for.** A skill the user just invoked may write only its own doc. Wait for an explicit implementation instruction before writing code.
 
 ## Workflow (CLI agents)
 
 1. Hard or multi-decision work → **grill-me** (or **wayfinder** if multi-session fog / many open decisions)
-2. Settled, implementable work → **plan-as-artifact** → `docs/artifacts/`
+2. Settled, implementable work → **plan-as-artifact** → `docs/artifacts/`, unless the user picks implement directly. That pick is permission to implement in this thread. A design discussion alone is not permission.
 3. Implement with the **tdd** skill when non-trivial
-4. Offer / run **check-work** before treating implement as done (user may waive)
+4. Offer **check-work** before treating implement as done (user may waive). It delegates to **verifier-check**.
 5. Session transfer → **thread-handoff** (`docs/handoffs/`); finished record → **recap-thread** (`docs/recaps/`)
+
+**research** is a session gate. When an external fact matters and you have not read the source, use the **research** skill instead of answering from memory. **researcher** reads and recommends. This session decides.
 
 Standing up the whole `docs/` tree is **create-docs-folder**, and only when the user asks for a docs folder. The skills above still create only their own leaf when they write.
 
@@ -64,7 +66,7 @@ Agent-written durable markdown (when those skills run):
 | `docs/recaps/` | recap-thread |
 | `docs/handoffs/` | thread-handoff |
 | `docs/checks/` | check-work (optional save; force-save after failed fix loops) |
-| `docs/plans/` | wayfinder maps (unchanged) |
+| `docs/plans/` | wayfinder maps; wayfinder research notes live under `docs/plans/<map-slug>/research/` |
 | `docs/research/` | research standalone notes |
 | `docs/misc/` | no convention |
 

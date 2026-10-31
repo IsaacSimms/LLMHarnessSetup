@@ -126,8 +126,9 @@ Decisions made during planning and the reasoning. Format:
 > **Rationale:** [why this option over alternatives]
 > **Alternatives considered:** [what was ruled out]
 
-If this plan follows a grill-me session, surface **every** resolved branch here. Do not re-open
-these in a later session unless the user explicitly reopens them.
+If this plan follows a grill-me session, the settled log is the source for this section. Surface
+**every** resolved branch here, with the choice that was settled. Do not re-open these in a later
+session unless the user explicitly reopens them.
 
 #### Deferred
 What is consciously **not** in this pass. If nothing is deferred, write exactly:
@@ -176,6 +177,10 @@ Do not add for completeness.
 ---
 
 ## Step 3: Confirm and report
+
+When this plan follows a grill-me session, re-read **Key Decisions** against the settled log before
+save. Every branch appears, with the choice that was settled. Correct a missing branch or softer
+wording, then save.
 
 After writing:
 

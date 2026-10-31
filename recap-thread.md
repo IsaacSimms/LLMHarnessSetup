@@ -9,11 +9,13 @@ description: >
   thread-handoff: use recap-thread when the work is DONE and the user wants a durable record
   (backward-looking). Use thread-handoff when the user is CONTINUING the same work in a fresh session
   (forward-looking). When "summary" is ambiguous: if the user is staying put and wants a keepsake,
-  choose recap-thread. After the recap is saved, merge durable project knowledge into context and
-  agent-instruction docs in the same run, without asking, and close with a short note on what those
-  docs gained.
+  choose recap-thread. After the recap is saved, merge durable architecture and project facts into
+  the project context file in the same run, without asking. Leave standing instruction files
+  unchanged unless the user explicitly asked to change standing rules. Name any contradiction with
+  those files in the closing note and leave that line in place. Close with a short note on what
+  the context file gained.
 metadata:
-  short-description: "Save a thread recap and merge durable facts into context docs"
+  short-description: "Save a thread recap and merge durable facts into the project context file"
 ---
 
 # Recap Thread
@@ -156,17 +158,23 @@ section's closing blurb. The blurb is chat only — do not add a section to the 
 
 ## Context file sweep (after save)
 
-After the recap is on disk, merge durable project knowledge into the context docs in the same run.
-Do **not** ask permission to edit.
+After the recap is on disk, merge durable architecture and project facts into the project context
+file in the same run. Do **not** ask permission to edit that file.
+
+Leave standing instruction files unchanged unless the user explicitly asked to change standing
+rules. The user asks when a session fact should become a standing rule.
 
 ### When an update is needed
 
-Update a doc only when a future session would be wrong without the fact: settled decisions,
-conventions, architecture, commands, paths, and invariants.
+Update the project context file only when a future session would be wrong without the fact:
+settled decisions, conventions, architecture, commands, paths, and invariants.
 
-Leave the docs alone when the thread's residue is narrative, open questions, or one-off debug
+Leave the file alone when the thread's residue is narrative, open questions, or one-off debug
 steps. The recap already holds those. Skip a recap-path pointer unless that path is itself the
 durable fact.
+
+Standing rules and workflow update an instruction file. Apply them in this sweep only when the
+user explicitly asked to change standing rules.
 
 ### Which files
 
@@ -179,10 +187,11 @@ casing, at that root only:
 
 Leave `.cursor/rules/` alone.
 
-Route by role. Agent-instruction files receive standing rules and workflow. `CONTEXT.md` receives
-architecture and project facts. When only one of these files exists, put the fact there. When
-several exist, each fact goes to the file whose role owns it. If a fact fits none of the files
-that are present, skip it and name that skip in the blurb.
+Route by role. `CONTEXT.md` receives architecture and project facts. Agent-instruction files
+receive standing rules and workflow only after an explicit ask to change standing rules. A context
+fact lands in `CONTEXT.md` only. When `CONTEXT.md` is absent, skip that fact and name the skip in
+the blurb. If a fact fits none of the files that are present, skip it and name that skip in the
+blurb.
 
 ### How to edit
 
@@ -192,7 +201,11 @@ are. Do not add a dated changelog. Do not commit.
 
 ### Contradictions
 
-When the new fact contradicts an existing line, replace that line.
+When the new fact contradicts a line in `CONTEXT.md`, replace that line.
+
+When the new fact contradicts a line in a standing instruction file, leave that line in place and
+name the file, the old fact, and the new one in the closing blurb. Replace that line only when the
+user explicitly asked to change standing rules.
 
 Stop and ask before editing a line only when that edit would:
 
@@ -201,11 +214,14 @@ Stop and ask before editing a line only when that edit would:
 - choose a side between two context docs that already disagree, and this thread never says which
   wins.
 
-Apply every other warranted edit in the same sweep, including ordinary contradictions. For a
-pressing line, leave that line unchanged until the user answers, and say what you held back.
+Apply every other warranted edit to the project context file in the same sweep, including ordinary
+contradictions. Instruction-file edits in this sweep are only the ones the user explicitly asked
+for, and they still stop for the cases above. For a pressing line, leave that line unchanged until
+the user answers, and say what you held back.
 
 ### Closing blurb
 
 End the reply with about two sentences. Name each file you changed and what it gained. When you
-replaced a line, name the old fact and the new one. When you changed nothing, one sentence is
-enough: the context docs were left unchanged.
+replaced a line, name the old fact and the new one. When a standing instruction line was left in
+place, name that file, the old fact, and the new one. When you changed nothing and left no
+instruction line in conflict, one sentence is enough: the context file was left unchanged.

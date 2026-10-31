@@ -31,9 +31,12 @@ skills/*   →  ~/.grok/skills/
 
 # Cursor CLI
 <skill>.md →  ~/.cursor/skills/<skill>/SKILL.md
+
+# Cursor subagents
+Subagents/*.md →  ~/.cursor/agents/*.md
 ```
 
-**Policy:** `CLAUDE.md` and `GROK.md` stay **fully identical**. Shared skills stay **fully identical** across trees. After editing a root `<skill>.md`, copy it to `~/.cursor/skills/<skill>/SKILL.md` and to the Claude and Grok installs.
+**Policy:** `CLAUDE.md` and `GROK.md` stay **fully identical**. Shared skills stay **fully identical** across trees. After editing a root `<skill>.md`, copy it to `~/.cursor/skills/<skill>/SKILL.md` and to the Claude and Grok installs. Cursor loads subagents from `~/.cursor/agents/`, not from this repo's `Subagents/` folder. After editing a file there, copy it to `~/.cursor/agents/`.
 
 ---
 
@@ -108,12 +111,12 @@ Filenames:
 | `plan-as-artifact` | Structured plan → `docs/artifacts/` (frontmatter, phases, progress, cold-start) |
 | `wayfinder` | Multi-session decision maps under `docs/plans/` |
 | `tdd` | Red-green-refactor; public interface; vertical slices; scripting notes |
-| `check-work` | Verify slice: build/tests, plan AC, short depth/UL pass; optional `docs/checks/` |
+| `check-work` | Verify slice via `verifier-check`: claimed behavior, build/tests; optional `docs/checks/` |
 | `thread-handoff` | Forward-looking handoff → `docs/handoffs/` |
 | `recap-thread` | Backward-looking recap → `docs/recaps/` |
 | `build-context-doc` | Generate/update project `Context.md` |
 | `improve-codebase-architecture` | Deepening / interface design opportunities |
-| `research` | High-trust research with captured findings |
+| `research` | Research via `researcher`: one findings file; parent decides |
 | `learn` | Teach tightly-scoped skill |
 | `to-prd` | Conversation → PRD |
 | `diagnose` | Diagnostic workflow |
