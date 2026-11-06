@@ -92,10 +92,10 @@ Then:
 | Stress-test decisions (this skill) | `grill-me` |
 | Settled; build it in this thread | `implement directly` (no plan file first) |
 | Settled → durable execution plan | `plan-as-artifact` → `docs/artifacts/` |
-| Multi-session decision map | `wayfinder` → `docs/plans/` |
+| Multi-session decision map | `wayfinder` → `docs/artifacts/maps/<map-slug>/` |
 | Continue work in a new session | `thread-handoff` → `docs/handoffs/` |
 | Work finished; durable record | `recap-thread` → `docs/recaps/` |
 | Verify implement slice | `check-work` → chat; optional `docs/checks/` |
-| Stand up the project docs tree | `create-docs-folder` → `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+| Stand up the project docs tree | `create-docs-folder` → `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `research`, `misc`) |
 
 Standing up the whole tree is `create-docs-folder`. Docs-writing skills still resolve their own output directory and create only their own leaf when they write.

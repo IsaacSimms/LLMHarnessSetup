@@ -44,7 +44,7 @@ skills     →  ~/.grok/skills/
 ## Workflow (default spine)
 
 ```text
-create-docs-folder  →  docs/{artifacts,recaps,handoffs,checks,plans,research,misc}
+create-docs-folder  →  docs/{artifacts,recaps,handoffs,checks,research,misc}
 grill-me  →  plan-as-artifact  →  implement (tdd)  →  check-work
                 ↓                      ↓
            docs/artifacts/        offer verify
@@ -62,7 +62,7 @@ research is a session gate: external facts → researcher; this session decides.
 | Scaffold the docs tree | `create-docs-folder` | User asks for a docs folder for a project or directory |
 | Stress-test decisions | `grill-me` | Design forks, multi-branch choices |
 | Implement from the grill | `grill-me` | User picks implement directly. That is permission to implement in this thread. No plan file. |
-| Multi-session fog | `wayfinder` | Too big for one session; decision map under `docs/plans/` |
+| Multi-session fog | `wayfinder` | Too big for one session; decision map under `docs/artifacts/maps/<map-slug>/` |
 | Execution contract | `plan-as-artifact` | Settled work, unless the grill close was implement directly |
 | Build | `tdd` | Non-trivial features/fixes |
 | Verify | `check-work` | After a non-trivial implement slice (offer; don’t auto-run). Delegates to `verifier-check`. |
@@ -80,15 +80,15 @@ When skills write durable markdown into a **project** repo (not this harness rep
 
 | Path | Skill |
 |------|--------|
-| `docs/artifacts/` | `plan-as-artifact` |
+| `docs/artifacts/` | `plan-as-artifact` (flat `{slug}.md`) |
+| `docs/artifacts/maps/<map-slug>/` | `wayfinder` |
 | `docs/recaps/` | `recap-thread` |
 | `docs/handoffs/` | `thread-handoff` |
 | `docs/checks/` | `check-work` (optional save; force-save after failed fix loops) |
-| `docs/plans/<map-slug>/` | `wayfinder` |
 | `docs/research/` | `research` (standalone notes; wayfinder research stays under the map) |
 | `docs/misc/` | No convention |
 
-`create-docs-folder` creates that tree in one shot: the seven leaves above, with a `.gitkeep` in each empty leaf. It does not write a README under `docs/`, does not create or edit any `.gitignore`, and does not create a file-type directory such as `screenshots/`. Screenshot files stay wherever they apply. A later run adds any standard leaf that is missing and leaves every other file where it is.
+`create-docs-folder` creates the six top-level leaves (`artifacts`, `recaps`, `handoffs`, `checks`, `research`, `misc`), with a `.gitkeep` in each empty leaf. It does not create `plans/` or `artifacts/maps/`. `wayfinder` creates `docs/artifacts/maps/<map-slug>/` when it writes a map. A map already at `docs/plans/<map-slug>/` stays there. It does not write a README under `docs/`, does not create or edit any `.gitignore`, and does not create a file-type directory such as `screenshots/`. Screenshot files stay wherever they apply. A later run adds any standard leaf that is missing and leaves every other file where it is. `plans/` is not a standard leaf.
 
 **Path resolution (docs-writing skills):**
 
@@ -112,10 +112,10 @@ Filenames:
 
 | Skill | Purpose |
 |--------|---------|
-| `create-docs-folder` | Scaffold `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+| `create-docs-folder` | Scaffold `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `research`, `misc`) |
 | `grill-me` | One-at-a-time decision interview; settled log; options + recommend |
 | `plan-as-artifact` | Structured plan → `docs/artifacts/` (frontmatter, phases, progress, cold-start) |
-| `wayfinder` | Multi-session decision maps under `docs/plans/` |
+| `wayfinder` | Multi-session decision maps under `docs/artifacts/maps/<map-slug>/` |
 | `tdd` | Red-green-refactor; public interface; vertical slices; scripting notes |
 | `check-work` | Verify slice via `verifier-check`: claimed behavior, build/tests; optional `docs/checks/` |
 | `thread-handoff` | Forward-looking handoff → `docs/handoffs/` |

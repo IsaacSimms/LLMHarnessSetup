@@ -1,7 +1,7 @@
 ---
 name: create-docs-folder
 description: >
-  Scaffold a project's docs tree: artifacts, recaps, handoffs, checks, plans,
+  Scaffold a project's docs tree: artifacts, recaps, handoffs, checks,
   research, and misc, with a .gitkeep in each empty leaf. Use when the user
   asks to create a docs folder, make a docs folder for a project or directory,
   scaffold docs, or names create-docs-folder. A directory path they give is the
@@ -20,7 +20,7 @@ Stand up the project `docs/` tree. This skill creates directories. It does not w
 
 ## Leaves
 
-Always these seven, as direct children of the docs root:
+Always these six, as direct children of the docs root:
 
 | Leaf | Owner |
 |------|--------|
@@ -28,9 +28,12 @@ Always these seven, as direct children of the docs root:
 | `recaps/` | `recap-thread` |
 | `handoffs/` | `thread-handoff` |
 | `checks/` | `check-work` |
-| `plans/` | `wayfinder` (`docs/plans/<map-slug>/`) |
 | `research/` | `research` standalone notes (`docs/research/`) |
 | `misc/` | No convention. Do not tell an agent to use it or to avoid it. |
+
+Do not create `plans/` or `artifacts/maps/`. `plan-as-artifact` writes flat files under `artifacts/`. `wayfinder` creates `docs/artifacts/maps/<map-slug>/` when it writes a map. Leave an existing `plans/` directory where it is.
+
+The six leaves above, plus an existing `plans/` directory, are the leaf names used only to resolve the docs root. Recognizing `plans/` does not create it.
 
 No `screenshots/` directory, and no other directory whose purpose is a file type. Screenshot files stay wherever they apply.
 
@@ -50,8 +53,9 @@ The user gave a path. That path is the project. Do not walk up. Do not ask becau
    - Otherwise create the path, then `{path}/docs`. That `docs` directory is the docs root.
 3. The path exists and is a directory.
    - Its name is `docs`. It is the docs root. Do not create a nested `docs/`.
-   - Its name is one of the seven leaves, and its parent is named `docs` or already contains another of those leaves. The parent is the docs root.
-   - Two or more of the seven leaves are already direct children. This directory is the docs root.
+   - Its name is one of the leaf names, and its parent is named `docs` or already contains another leaf name. The parent is the docs root.
+   - Its name is `maps` and its parent is `artifacts`. The grandparent is the docs root.
+   - Two or more leaf names are already direct children. This directory is the docs root.
    - Otherwise the docs root is `{path}/docs`. Create it when missing. Amend it when present.
 
 ### No path
@@ -71,7 +75,7 @@ Wait for the answer before creating anything.
 
 ## Write the tree
 
-For each of the seven leaves:
+For each of the six leaves:
 
 - Create the directory when it is missing.
 - When the directory has no entries, create `.gitkeep` if that file is absent.
@@ -79,7 +83,7 @@ For each of the seven leaves:
 - Do not delete an existing `.gitkeep`, or any other file or directory.
 - Do not move or rename anything.
 
-A later run adds any standard leaf that is missing, including one the user removed.
+A later run adds any standard leaf that is missing, including one the user removed. `plans/` is not a standard leaf. Do not add it.
 
 ## Report
 

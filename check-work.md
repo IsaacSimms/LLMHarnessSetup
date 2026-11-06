@@ -28,9 +28,9 @@ Audience: **CLI coding agents** (Grok Build, Claude Code, peers).
 | Work **done**; durable record | `recap-thread` | `docs/recaps/` |
 | Work **continues** in a new session | `thread-handoff` | `docs/handoffs/` |
 | Decisions **settled**; execution contract | `plan-as-artifact` | `docs/artifacts/` |
-| Multi-session decision map | `wayfinder` | `docs/plans/<map-slug>/` |
+| Multi-session decision map | `wayfinder` | `docs/artifacts/maps/<map-slug>/` |
 | **Verify** this session's work | `check-work` | chat; optional `docs/checks/` |
-| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `research`, `misc`) |
 | Ambitious structural redesign review | `code-review` | (opt-in, separate) |
 
 Standing up the whole tree is `create-docs-folder`. This skill still resolves its own output directory and creates only its own leaf when it writes.

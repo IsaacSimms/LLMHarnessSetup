@@ -31,9 +31,9 @@ The file is the source of truth. Do **not** paste the full document into chat.
 | Work **done**; durable record of what happened | `recap-thread` | `docs/recaps/` |
 | Work **continues** in a fresh session | `thread-handoff` | `docs/handoffs/` |
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
-| Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
+| Many open decisions / multi-session fog | `wayfinder` | `docs/artifacts/maps/<map-slug>/` |
 | Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
-| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `research`, `misc`) |
 
 Standing up the whole tree is `create-docs-folder`. This skill still resolves its own output directory and creates only its own leaf when it writes.
 

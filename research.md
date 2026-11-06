@@ -39,7 +39,7 @@ Determine the mode from the caller, not from the question.
 
 | Mode | Trigger | Output location | Filename |
 |---|---|---|---|
-| Wayfinder | Resolving a `research` ticket | `docs/plans/<map-slug>/research/` | Ticket's slug: `002-graphql-subscription-limits.md` |
+| Wayfinder | Resolving a `research` ticket | `docs/artifacts/maps/<map-slug>/research/` | Ticket's slug: `002-graphql-subscription-limits.md` |
 | Standalone | Everything else | `docs/research/` | Slug of the question: `graphql-subscription-limits.md` |
 
 `docs/research/` is a leaf `create-docs-folder` scaffolds. Both locations are **fixed**. Do not go looking for where the repo "already keeps such notes"

@@ -2,7 +2,7 @@
 name: wayfinder
 description: >
   Plan work too large for one agent session as a markdown map of decision tickets under
-  docs/plans/, then resolve them one at a time until the way to the destination is clear.
+  docs/artifacts/maps/, then resolve them one at a time until the way to the destination is clear.
   Use this skill whenever a task is too big to hold in a single session, whenever the user
   says "chart this", "map this out", "this is a big one", "wayfinder", "work the map", or
   names a map by slug or path. Also use it proactively when the user describes a multi-week
@@ -36,7 +36,7 @@ Execution happens after the map closes, from the `work/` files the map emits (se
 Everything is markdown, committed to the repo:
 
 ```
-docs/plans/<map-slug>/
+docs/artifacts/maps/<map-slug>/
   map.md
   tickets/
     001-choose-auth-strategy.md
@@ -47,7 +47,8 @@ docs/plans/<map-slug>/
 
 Rules:
 
-- **Scaffold** — `docs/plans/` is a leaf `create-docs-folder` scaffolds. This skill still creates `docs/plans/<map-slug>/` when it writes a map.
+- **Scaffold** — This skill creates `docs/artifacts/maps/<map-slug>/` when it writes a map. `create-docs-folder` does not create that directory.
+- **Already on disk** — A map at `docs/plans/<map-slug>/` stays there. Do not move it. If the user names that path, work it in place. New maps go under `docs/artifacts/maps/`.
 - **Numbering** — zero-padded, sequential, allocated per directory. Before creating a ticket
   or work item, list the directory and take the next number. Numbers are never reused, even
   after deletion.
@@ -131,7 +132,7 @@ A ticket is **unblocked** when every id in `blocked_by` has `status: closed`. Th
 is every ticket that is open and unblocked. Compute it by scanning the directory:
 
 ```bash
-grep -l "^status: open" docs/plans/<map-slug>/tickets/*.md
+grep -l "^status: open" docs/artifacts/maps/<map-slug>/tickets/*.md
 ```
 
 then filter by `blocked_by` against the closed set.
@@ -255,7 +256,7 @@ and stop. Do not chart a map for work that does not need one.
 
 ### 3. Create the map
 
-Write `docs/plans/<map-slug>/map.md` with Destination and Notes filled in, Decisions so far
+Write `docs/artifacts/maps/<map-slug>/map.md` with Destination and Notes filled in, Decisions so far
 and Frontier empty, and the fog sketched into **Not yet specified**. Set `status: charting`.
 
 ### 4. Create tickets, then wire
@@ -270,7 +271,7 @@ Anything you cannot specify stays in the fog.
 ### 5. Fire research subagents
 
 For every `research` ticket just created, invoke the `research` skill in parallel. Each
-subagent writes one file to `docs/plans/<map-slug>/research/`, named after its ticket's slug.
+subagent writes one file to `docs/artifacts/maps/<map-slug>/research/`, named after its ticket's slug.
 
 A research subagent never closes its own ticket. When the findings return, weigh the
 recommendation against the map's Destination and constraints — which the subagent never saw —

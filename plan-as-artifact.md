@@ -8,7 +8,7 @@ description: >
   Can be used standalone or after a grill-me session. If a plan artifact seems clearly
   appropriate to the situation but the user hasn't asked, you may ask once whether they
   want one — do not push if they decline. For multi-session fog with many open decisions,
-  prefer wayfinder (docs/plans/) instead of forcing a linear phase plan.
+  prefer wayfinder (docs/artifacts/maps/) instead of forcing a linear phase plan.
 metadata:
   short-description: "Save a structured plan under docs/artifacts"
 ---
@@ -33,9 +33,9 @@ TL;DR, and **stop** unless the user explicitly says to implement or continue.
 | Work **done**; durable record of what happened | `recap-thread` | `docs/recaps/` |
 | Work **continues** in a fresh session | `thread-handoff` | `docs/handoffs/` |
 | Decisions **settled**; implementable contract | `plan-as-artifact` | `docs/artifacts/` |
-| Many open decisions / multi-session fog | `wayfinder` | `docs/plans/<map-slug>/` |
+| Many open decisions / multi-session fog | `wayfinder` | `docs/artifacts/maps/<map-slug>/` |
 | Verify implement slice (build/tests/depth) | `check-work` | chat; optional `docs/checks/` |
-| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `plans`, `research`, `misc`) |
+| Stand up the project docs tree | `create-docs-folder` | `docs/` (`artifacts`, `recaps`, `handoffs`, `checks`, `research`, `misc`) |
 
 Standing up the whole tree is `create-docs-folder`. This skill still resolves its own output directory and creates only its own leaf when it writes.
 
@@ -196,7 +196,7 @@ If the user asks to load or continue a plan and no path is given:
 
 1. Prefer `{resolved project}/docs/artifacts/` (resolve project the same way as write, or search
    obvious workspace roots)
-2. Match by project name and task slug
+2. Match a flat `*.md` file in that directory by project name and task slug. Skip `maps/`. Wayfinder maps live at `docs/artifacts/maps/<map-slug>/`.
 3. If nothing in-repo: also search legacy **`~/.grok/plans/`** (and `~/.claude/plans/` if present).
    **Do not auto-migrate.** If a legacy match is found, confirm before using it
 4. Confirm with the user: "I found `{path}` — is this the plan you want?"
