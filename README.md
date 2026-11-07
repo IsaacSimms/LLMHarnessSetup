@@ -22,7 +22,7 @@ Agents should **not** invent parallel processes when a skill already covers the 
 Copy (or symlink) into the agent’s user config, for example:
 
 ```text
-# Cursor CLI
+# Cursor
 AGENTS.md                      →  ~/.cursor/AGENTS.md
 <skill>.md                     →  ~/.cursor/skills/<skill>/SKILL.md
 improve-codebase-architecture/ →  ~/.cursor/skills/improve-codebase-architecture/
