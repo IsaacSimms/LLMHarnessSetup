@@ -12,6 +12,7 @@ This repo is the source of truth I keep up to date and copy into the agent confi
 | **Global instructions** (`AGENTS.md`) | Standing rules: coding style, approvals, plan mode, TDD, ubiquitous language (depth, seams, modules), workflow. Cursor copy is `~/.cursor/AGENTS.md`. |
 | **Skills** (`<skill>.md` at the repo root, plus `improve-codebase-architecture/`) | On-demand playbooks. Cursor CLI reads `~/.cursor/skills/<skill>/SKILL.md`. |
 | **Subagents** (`Subagents/*.md`) | `researcher` and `verifier-check`. Cursor loads `~/.cursor/agents/`. |
+| **IDE setups** (`IDE setups/vscode`, `IDE setups/cursor`) | User settings, keybindings, and extension ids for a new machine. See `IDE setups/README.md`. |
 
 Agents should **not** invent parallel processes when a skill already covers the job.
 

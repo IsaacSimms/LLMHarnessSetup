@@ -1,0 +1,74 @@
+{
+  "editor.minimap.showSlider": "always",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "editor.mouseWheelZoom": true,
+    "editor.renderWhitespace": "all",
+    "git.confirmSync": false,
+    "git.autofetch": true,
+    "liveServer.settings.donotShowInfoMsg": true,
+    "workbench.activityBar.location": "top",
+    "claudeCode.preferredLocation": "panel",
+    "github.copilot.chat.mcp.servers": {
+    "playwright": {
+    "type": "stdio",
+    "command": "npx",
+    "args": ["@playwright/mcp", "--browser", "firefox", "--isolated"]
+  }
+},
+"github.copilot.chat.agent.enabled": true,
+"git.suggestSmartCommit": false,
+"chat.viewSessions.orientation": "stacked",
+"workbench.secondarySideBar.defaultVisibility": "hidden",
+"markdown.validate.enabled": true,
+"workbench.panel.showLabels": false,
+"js/ts.experimental.useTsgo": true,
+"cSpell.allowCompoundWords": true,
+"cSpell.minWordLength": 4,
+"cSpell.ignorePaths": [
+  "**/bin",
+  "**/obj",
+  "**/node_modules",
+  "**/.git",
+  "**/dist"
+],
+"chat.titleBar.openInAgentsWindow.enabled": false,
+"diffEditor.ignoreTrimWhitespace": false,
+"terminal.integrated.initialHint": false,
+"workbench.editor.empty.hint": "hidden",
+"editor.lineNumbers": "relative",
+"terminal.integrated.profiles.windows": {
+  "x64 Native Tools": {
+    "source": "PowerShell",
+    "icon": "terminal-powershell",
+    "args": [
+      "-NoExit",
+      "-Command",
+      "& 'C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\Launch-VsDevShell.ps1' -Arch amd64 -HostArch amd64 -SkipAutomaticLocation"
+    ]
+  }
+},
+"terminal.integrated.defaultProfile.windows": "x64 Native Tools",
+"editor.inlineSuggest.enabled": false,
+"xgrok.defaultModel": "grok-4.6",
+"security.workspace.trust.untrustedFiles": "open",
+"explorer.confirmDelete": false,
+"workbench.editor.tabSizing": "shrink",
+"window.density.editorTabHeight": "compact",
+"window.titleBarStyle": "custom",
+"window.controlsStyle": "custom",
+"explorer.confirmDragAndDrop": false,
+"explorer.confirmPasteNative": false,
+"terminal.integrated.enableNotifications": false,
+"github.copilot.enable": {
+  "markdown": false,
+  "cpp": true
+},
+"terminal.integrated.inheritEnv": false,
+"python.terminal.activateEnvironment": false,
+"python.terminal.activateEnvInCurrentTerminal": false,
+"python-envs.terminal.autoActivationType": "off",
+"[markdown]": {
+  "diffEditor.ignoreTrimWhitespace": true
+},
+"workbench.colorTheme": "Cursor Dark"
+}

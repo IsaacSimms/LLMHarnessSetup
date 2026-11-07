@@ -1,0 +1,18 @@
+// Place your key bindings in this file to override the defaults
+[
+{
+  "key": "alt+up",
+  "command": "workbench.action.terminal.focusPrevious",
+  "when": "terminalFocus"
+},
+{
+  "key": "alt+down",
+  "command": "workbench.action.terminal.focusNext",
+  "when": "terminalFocus"
+},
+{
+  "key": "ctrl+shift+/",
+  "command": "markdown.showPreviewToSide",
+  "when": "editorLangId == markdown"
+}
+]
