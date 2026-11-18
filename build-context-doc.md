@@ -1,5 +1,5 @@
 ---
-name: context-md
+name: build-context-doc
 description: >
   Generate or update a Context.md architectural reference document for a codebase Claude
   has not seen before. Use this skill whenever the user asks to "document this repo",

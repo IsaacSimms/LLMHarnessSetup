@@ -9,10 +9,10 @@ This repo is the source of truth I keep up to date and copy into the agent confi
 
 | Piece | Role |
 |--------|------|
-| **Global instructions** (`AGENTS.md`) | Standing rules: coding style, approvals, plan mode, TDD, ubiquitous language (depth, seams, modules), workflow. Cursor copy is `~/.cursor/AGENTS.md`. |
+| **Global instructions** (`CLAUDE.md`) | Standing rules: coding style, approvals, plan mode, TDD, ubiquitous language (depth, seams, modules), workflow. Cursor copy is `~/.cursor/AGENTS.md`. |
 | **Skills** (`<skill>.md` at the repo root, plus `improve-codebase-architecture/`) | On-demand playbooks. Cursor CLI reads `~/.cursor/skills/<skill>/SKILL.md`. |
 | **Subagents** (`Subagents/*.md`) | `researcher` and `verifier-check`. Cursor loads `~/.cursor/agents/`. |
-| **IDE setups** (`IDE setups/vscode`, `IDE setups/cursor`) | User settings, keybindings, and extension ids for a new machine. See `IDE setups/README.md`. |
+| **IDE setups** (`IDE setups/vscode`; Cursor config is in `deprecated/cursor`) | User settings, keybindings, and extension ids for a new machine. See `IDE setups/README.md`. |
 
 Agents should **not** invent parallel processes when a skill already covers the job.
 
@@ -24,21 +24,21 @@ Copy (or symlink) into the agent’s user config, for example:
 
 ```text
 # Cursor
-AGENTS.md                      →  ~/.cursor/AGENTS.md
+CLAUDE.md                      →  ~/.cursor/AGENTS.md
 <skill>.md                     →  ~/.cursor/skills/<skill>/SKILL.md
 improve-codebase-architecture/ →  ~/.cursor/skills/improve-codebase-architecture/
 Subagents/*.md                 →  ~/.cursor/agents/*.md
 
 # Claude Code
-AGENTS.md  →  ~/.claude/CLAUDE.md
+CLAUDE.md  →  ~/.claude/CLAUDE.md
 skills     →  ~/.claude/skills/
 
 # Grok Build (peer)
-AGENTS.md  →  ~/.grok/rules/GROK.md
+CLAUDE.md  →  ~/.grok/rules/GROK.md
 skills     →  ~/.grok/skills/
 ```
 
-**Policy:** Repo `AGENTS.md` and `~/.cursor/AGENTS.md` stay **fully identical**. Peer copies of that same text (`~/.claude/CLAUDE.md`, `~/.grok/rules/GROK.md`) stay identical when those installs exist. Shared skills stay **fully identical** across trees. After editing a root `<skill>.md`, copy it to `~/.cursor/skills/<skill>/SKILL.md` and to the Claude and Grok skill dirs. After editing `improve-codebase-architecture/`, copy that folder to `~/.cursor/skills/improve-codebase-architecture/` and to those same peer skill dirs. Cursor loads subagents from `~/.cursor/agents/`, not from this repo's `Subagents/` folder. After editing a file there, copy it to `~/.cursor/agents/`.
+**Policy:** Repo `CLAUDE.md` and `~/.cursor/AGENTS.md` stay **fully identical**. Peer copies of that same text (`~/.claude/CLAUDE.md`, `~/.grok/rules/GROK.md`) stay identical when those installs exist. Shared skills stay **fully identical** across trees. After editing a root `<skill>.md`, copy it to `~/.cursor/skills/<skill>/SKILL.md` and to the Claude and Grok skill dirs. After editing `improve-codebase-architecture/`, copy that folder to `~/.cursor/skills/improve-codebase-architecture/` and to those same peer skill dirs. Cursor loads subagents from `~/.cursor/agents/`, not from this repo's `Subagents/` folder. After editing a file there, copy it to `~/.cursor/agents/`.
 
 ---
 
@@ -132,7 +132,7 @@ Platform-only skills (e.g. Grok `help`, `imagine`) may live only in a specific a
 
 ## Global instructions (highlights)
 
-The full rules live in `AGENTS.md`. Non-negotiables:
+The full rules live in `CLAUDE.md`. Non-negotiables:
 
 - **Plan mode:** no code changes, and no file the user did not ask for. A skill just invoked may write only its own doc. Implementation waits for an explicit instruction.  
 - **TDD** for non-trivial work (use the `tdd` skill)  
@@ -159,7 +159,7 @@ The full rules live in `AGENTS.md`. Non-negotiables:
 1. Edit skills / global instructions here first.  
 2. Keep skill bodies **agent-neutral** (Coding agents, not a single product name).  
 3. Prefer **additions** over rewrites of working text.  
-4. Sync `AGENTS.md` to `~/.cursor/AGENTS.md`. Sync root skills and `improve-codebase-architecture/` to `~/.cursor/skills`, and `Subagents/` to `~/.cursor/agents/`. Peer installs (`~/.claude`, `~/.grok`, or equivalent) get the same text.  
+4. Sync `CLAUDE.md` to `~/.cursor/AGENTS.md`. Sync root skills and `improve-codebase-architecture/` to `~/.cursor/skills`, and `Subagents/` to `~/.cursor/agents/`. Peer installs (`~/.claude`, `~/.grok`, or equivalent) get the same text.  
 5. If a skill writes under `docs/`, use the shared path-resolution rules above. Scaffolding the tree is `create-docs-folder`.  
 
 ---
