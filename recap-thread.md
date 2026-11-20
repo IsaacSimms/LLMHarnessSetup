@@ -25,7 +25,7 @@ Produce a **lightweight, structured recap** of the conversation and save it as a
 ended — for filing, search, or share later.
 
 It is deliberately lighter than a handoff. It is **not** meant to let a fresh session resume work;
-that is `thread-handoff`. Audience: humans and **CLI coding agents** (Grok Build, Claude Code, peers).
+that is `thread-handoff`. Audience: humans and **CLI coding agents**.
 
 ---
 
@@ -53,11 +53,11 @@ Shared by any skill that writes under `docs/`. This skill's subfolder is **`reca
    **Do not ask.**
 3. If no `docs/` in cwd → walk **up** looking for a **`docs/`** directory and/or a **git root**
    (`.git`).
-4. If either is found → **ask the user** where to place the file. Offer defaults:
+4. If either is found → **ask the user** with `AskUserQuestion` where to place the file. Offer these as options, recommended first:
    - Nearest parent `docs/` → `{that-docs}/recaps/`
    - Git root without `docs/` → create `{git-root}/docs/recaps/`
    - If both exist and differ, list both; recommend nearest `docs/`
-5. If walk-up finds **nothing** → **ask**, default: create `{cwd}/docs/recaps/`.
+5. If walk-up finds **nothing** → **ask** with `AskUserQuestion`, default option: create `{cwd}/docs/recaps/`.
 
 Create intermediate directories as needed. Do **not** use home-dir folders as the primary write target.
 
@@ -136,10 +136,6 @@ Write to `{resolved-docs}/recaps/{filename}` using **Resolve docs output directo
 
 After saving, tell the user the full path.
 
-**Legacy:** Older recaps may live under `~/.grok/summaries/`. Do **not** auto-migrate. When the
-user asks to find a recap and nothing is under `docs/recaps/`, search that legacy path and confirm
-before treating a hit as the answer.
-
 If the session is sandboxed and only supports download-style output, save to the session outputs
 path and present the file for download instead.
 
@@ -181,11 +177,10 @@ user explicitly asked to change standing rules.
 Look in the project root that owns the resolved `docs/` directory. Match these names in any
 casing, at that root only:
 
-- **Agent instructions:** `AGENTS.md`, `CLAUDE.md`, `GROK.md`, `GEMINI.md`, `AGENT.md`,
-  `.cursorrules`, and `.github/copilot-instructions.md`
+- **Agent instructions:** `CLAUDE.md` and `.claude/CLAUDE.md`
 - **Project context:** `CONTEXT.md`
 
-Leave `.cursor/rules/` alone.
+Leave `.claude/rules/` alone.
 
 Route by role. `CONTEXT.md` receives architecture and project facts. Agent-instruction files
 receive standing rules and workflow only after an explicit ask to change standing rules. A context

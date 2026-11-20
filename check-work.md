@@ -17,7 +17,7 @@ This skill fixes real failures, re-verifies with a fresh `verifier-check` pass, 
 stops cleanly. If `verifier-check` is not installed, say so and stop. Do not run the
 pass in this session.
 
-Audience: **CLI coding agents** (Grok Build, Claude Code, peers).
+Audience: **CLI coding agents**.
 
 ---
 
@@ -101,7 +101,7 @@ Always be explicit in chat while fix loops run — no silent retries.
 
 ## Delegation
 
-Invoke the `verifier-check` subagent. Do not paste its procedure. Cursor loads that subagent from `~/.cursor/agents/verifier-check.md`.
+Invoke the `verifier-check` subagent with the Agent tool (`subagent_type: verifier-check`). Do not paste its procedure.
 
 The task message includes:
 

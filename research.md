@@ -53,7 +53,7 @@ the directory and take the same next number.
 
 ## Delegation
 
-Invoke `researcher`. Do not paste its procedure. Cursor loads it from `~/.cursor/agents/researcher.md`.
+Invoke `researcher` with the Agent tool (`subagent_type: researcher`). Do not paste its procedure.
 
 Fill every slot before spawning. The output path comes from Modes.
 

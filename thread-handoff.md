@@ -18,7 +18,7 @@ metadata:
 
 Produce a **Thread Handoff Document** — dense, structured — so a completely fresh session (zero
 memory of this conversation) can act without redundant questions. **Always write the file** under
-**`docs/handoffs/`**. Audience: **CLI coding agents** (Grok Build, Claude Code, peers) and the human.
+**`docs/handoffs/`**. Audience: **CLI coding agents** and the human.
 
 The file is the source of truth. Do **not** paste the full document into chat.
 
@@ -52,11 +52,11 @@ Shared by any skill that writes under `docs/`. This skill's subfolder is **`hand
    **Do not ask.**
 3. If no `docs/` in cwd → walk **up** looking for a **`docs/`** directory and/or a **git root**
    (`.git`).
-4. If either is found → **ask the user** where to place the file. Offer defaults:
+4. If either is found → **ask the user** with `AskUserQuestion` where to place the file. Offer these as options, recommended first:
    - Nearest parent `docs/` → `{that-docs}/handoffs/`
    - Git root without `docs/` → create `{git-root}/docs/handoffs/`
    - If both exist and differ, list both; recommend nearest `docs/`
-5. If walk-up finds **nothing** → **ask**, default: create `{cwd}/docs/handoffs/`.
+5. If walk-up finds **nothing** → **ask** with `AskUserQuestion`, default option: create `{cwd}/docs/handoffs/`.
 
 Create intermediate directories as needed. Do **not** use home-dir folders as the primary write target.
 

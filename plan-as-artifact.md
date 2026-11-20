@@ -17,7 +17,7 @@ metadata:
 
 Produce a structured, model-optimized markdown plan from the current conversation and save
 it under **`docs/artifacts/`** in the project. Audience: the human author and any **CLI coding
-agent** (Grok Build, Claude Code, peers) that will execute or continue the plan in a later
+agent** that will execute or continue the plan in a later
 session. Be specific, unambiguous, and self-contained — the model reading this file may have
 no other context.
 
@@ -53,11 +53,11 @@ Shared by any skill that writes under `docs/`. This skill's subfolder is **`arti
    missing. **Do not ask.**
 3. If no `docs/` in cwd → walk **up** looking for a **`docs/`** directory and/or a **git root**
    (`.git`).
-4. If either is found → **ask the user** where to place the file. Offer clear defaults:
+4. If either is found → **ask the user** with `AskUserQuestion` where to place the file. Offer these as options, recommended first:
    - Nearest parent `docs/` → `{that-docs}/artifacts/`
    - Git root without `docs/` → create `{git-root}/docs/artifacts/`
    - If both exist and differ, list both and recommend the nearest `docs/`
-5. If walk-up finds **nothing** → **ask**, default: create `{cwd}/docs/artifacts/`.
+5. If walk-up finds **nothing** → **ask** with `AskUserQuestion`, default option: create `{cwd}/docs/artifacts/`.
 
 Create intermediate directories as needed when writing. Do **not** write plans to home-dir
 folders as the primary target.
@@ -197,7 +197,7 @@ If the user asks to load or continue a plan and no path is given:
 1. Prefer `{resolved project}/docs/artifacts/` (resolve project the same way as write, or search
    obvious workspace roots)
 2. Match a flat `*.md` file in that directory by project name and task slug. Skip `maps/`. Wayfinder maps live at `docs/artifacts/maps/<map-slug>/`.
-3. If nothing in-repo: also search legacy **`~/.grok/plans/`** (and `~/.claude/plans/` if present).
+3. If nothing in-repo: also search legacy **`~/.claude/plans/`** (plan-mode output) if present.
    **Do not auto-migrate.** If a legacy match is found, confirm before using it
 4. Confirm with the user: "I found `{path}` — is this the plan you want?"
 5. If multiple matches, list them and ask

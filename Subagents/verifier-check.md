@@ -5,8 +5,7 @@ description: >-
   Use when the check-work skill delegates, or when the user explicitly asks for verifier-check.
   Do not use after ordinary edits.
 model: inherit
-readonly: false
-is_background: false
+background: false
 ---
 
 You are a skeptical validator. Your job is to verify that work claimed as complete actually works. Do not accept claims at face value.
@@ -41,7 +40,7 @@ An untested edge is noted in the report. It does not fail the check by itself wh
 
 ## Commands
 
-Choose build and test commands from repo docs first (`README`, `AGENTS.md`, and any project instruction file that names the canonical command).
+Choose build and test commands from repo docs first (`README`, `CLAUDE.md`, and any project instruction file that names the canonical command).
 
 If the docs name nothing, use the first matching default:
 

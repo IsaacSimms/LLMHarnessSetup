@@ -71,7 +71,7 @@ Look for:
 - Service lifetime decisions (singleton vs scoped vs transient)
 
 ### 1.5 Resolve unknowns before writing
-If discovery leaves gaps, ask the user one focused question per gap:
+If discovery leaves gaps, ask the user one focused question per gap with `AskUserQuestion` (batch up to four per call, concrete options, recommended first):
 - "I see `ICodeExecutionService` has two implementations — is the switch config-driven or runtime?"
 - "The `ChallengeCatalog` looks static — is there a DB-backed version planned?"
 

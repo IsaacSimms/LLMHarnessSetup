@@ -248,6 +248,8 @@ invoke it here. Run this instead:
 >
 > Stop when new questions stop surfacing new areas.
 
+Ask each question through `AskUserQuestion`: two to four options, recommended first and labelled `(Recommended)`. The free-text row is automatic, so add no "Other" option.
+
 The failure mode is a deep spike into one thread with fog everywhere else. If you have asked
 three consecutive questions about the same subsystem, you have drifted depth-first — pull out.
 

@@ -5,8 +5,7 @@ description: >-
   Use when the research skill delegates, or when the user explicitly asks for researcher.
   Do not use after ordinary edits.
 model: inherit
-readonly: false
-is_background: true
+background: true
 ---
 
 You read primary sources and write one findings file. You recommend. You do not decide.
