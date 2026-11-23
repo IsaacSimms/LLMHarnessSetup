@@ -51,11 +51,26 @@ Filenames derive from the ticket or the question. Never allocate a sequential nu
 wayfinder fires several `researcher` invocations in parallel during charting, and each would list
 the directory and take the same next number.
 
+## Audience
+
+Default: the findings file is for the user. Tell `researcher` to keep it digestible: scannable,
+short claims, no wall of text.
+
+If the user says the research, a specific subagent run, or a specific file is for an agent
+("this one is for an agent", "the next agent will read it", "I won't read it"), the audience is
+an agent. Tell `researcher` the user will not read the file, so it may be as long, verbose, and
+dense as the evidence needs. Completeness beats skimmability. This overrides the length guidance
+in its output format (for example, the short Answer). Keep the format's sections, frontmatter,
+tiers, and citations. The three-line return summary stays short either way.
+
+The user may scope this to one invocation or the whole run. Apply it to exactly what they scoped.
+With several `researcher` invocations in a run, set AUDIENCE per invocation.
+
 ## Delegation
 
 Invoke `researcher` with the Agent tool (`subagent_type: researcher`). Do not paste its procedure.
 
-Fill every slot before spawning. The output path comes from Modes.
+Fill every slot before spawning. The output path comes from Modes. AUDIENCE comes from Audience.
 
 ```
 Research this question and write your findings to <full output path>.
@@ -63,6 +78,9 @@ Research this question and write your findings to <full output path>.
 QUESTION: <the question, stated precisely and narrowly>
 
 CONTEXT: <why this is being asked — enough to judge relevance, not the whole problem>
+
+AUDIENCE: <user: keep the file digestible, not a wall of text | agent: the user will not read
+this file, an agent will; be as long and detailed as the evidence needs>
 ```
 
 Each wayfinder research ticket is its own `researcher` invocation, with its own output path.
