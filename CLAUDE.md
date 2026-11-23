@@ -2,17 +2,7 @@
 
 ## Coding conventions
 
-On a sizable or unique block — a function, a class, or a non-obvious stretch — add a title comment:
-
-```
-// == Title Here == //
-```
-
-Use that language's comment syntax (`# == Title Here == #`, `<!-- == Title Here == -->`, and so on).
-
-A longer note sits on the line above the code. A note about one line sits on that line, with space before the comment. Align inline comments with each other where practical. Alignment is a preference.
-
-Title comments are for navigation. Leave the obvious uncommented. When that language or framework has its own documentation convention, follow it. If a title comment would fight that convention, the language wins.
+Comment only when necessary. Add a comment only where the code cannot carry the meaning itself, such as a non-obvious constraint, a workaround, or a reason the obvious approach was not used. Never narrate what the code does. Prefer a clearer name or structure over a comment.
 
 ## General
 

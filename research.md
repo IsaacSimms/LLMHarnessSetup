@@ -69,6 +69,12 @@ Each wayfinder research ticket is its own `researcher` invocation, with its own 
 
 If `researcher` is not installed, say so and stop.
 
+## Readability pass
+
+When `researcher` returns, invoke `readability-verifier` (`subagent_type: readability-verifier`) on
+the findings file path. It runs in the foreground. This is the last pass over the file: the
+research is not complete, and no ticket is closed or answer given, until it returns.
+
 ## When the calling session gets the result
 
 1. Read the file. Do not re-read its sources — that discards the context isolation you paid for.

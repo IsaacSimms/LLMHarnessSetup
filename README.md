@@ -11,7 +11,7 @@ This repo is the source of truth I keep up to date and copy into `~/.claude/` on
 |--------|------|
 | **Global instructions** (`CLAUDE.md`) | Standing rules: coding style, approvals, plan mode, TDD, ubiquitous language (depth, seams, modules), workflow. Installed as `~/.claude/CLAUDE.md`. |
 | **Skills** (`<skill>.md` at the repo root, plus `improve-codebase-architecture/`) | On-demand playbooks, loaded from `~/.claude/skills/<skill>/SKILL.md`. |
-| **Subagents** (`Subagents/*.md`) | `researcher` and `verifier-check`. Loaded from `~/.claude/agents/`. |
+| **Subagents** (`Subagents/*.md`) | `researcher`, `verifier-check`, and `readability-verifier`. Loaded from `~/.claude/agents/`. |
 | **IDE setups** (`IDE setups/vscode`; Cursor config is in `deprecated/cursor`) | User settings, keybindings, and extension ids for a new machine. See `IDE setups/README.md`. |
 
 Agents should **not** invent parallel processes when a skill already covers the job.
