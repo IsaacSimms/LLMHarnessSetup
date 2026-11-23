@@ -93,6 +93,9 @@ When `researcher` returns, invoke `readability-verifier` (`subagent_type: readab
 the findings file path. It runs in the foreground. This is the last pass over the file: the
 research is not complete, and no ticket is closed or answer given, until it returns.
 
+Skip this pass for any file whose audience is an agent (see Audience). That file is meant to be
+long and dense, and the pass would undo it.
+
 ## When the calling session gets the result
 
 1. Read the file. Do not re-read its sources — that discards the context isolation you paid for.
