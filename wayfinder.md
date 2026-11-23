@@ -161,8 +161,8 @@ A prototype is **throwaway code that answers a question**. Its purpose is to rai
 fidelity of the discussion — to give the user something concrete to react to, because the
 useful signal is "wait, that shouldn't be possible," and that signal never arrives from prose.
 
-**Build it in whatever the production artifact would be.** A PowerShell question gets a
-PowerShell script. A Blazor question gets a page with switchable variants. A state-model
+**Build it in whatever the production artifact would be.** A shell-script question gets a
+shell script. A UI question gets a page with switchable variants. A state-model
 question gets a console app. Do not pick a prototype *format* and then translate the question
 into it.
 
@@ -176,7 +176,7 @@ the shell around it is disposable. Nothing flows from the shell into the module.
 Rules:
 
 - **Throwaway from day one**, and named so a casual reader can tell.
-- **One command to run.** Whatever the project's runner is — `dotnet run`, a script path, a
+- **One command to run.** Whatever the project's runner is — `npm start`, a script path, a
   `just` recipe. The user must not have to remember a path.
 - **In-memory state only**, unless persistence is itself the question.
 - **No tests, no error handling beyond runnable, no abstractions, no "what if we later".**

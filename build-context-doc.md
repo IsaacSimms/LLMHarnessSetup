@@ -28,19 +28,19 @@ that don't apply.
 ```bash
 # Get the top-level shape
 find . -maxdepth 2 -not -path '*/.git/*' -not -path '*/node_modules/*' \
-       -not -path '*/bin/*' -not -path '*/obj/*' | sort
+       -not -path '*/bin/*' -not -path '*/dist/*' | sort
 
-# Spot solution/project files, package manifests, and config roots
-ls *.sln *.csproj *.fsproj package.json Cargo.toml go.mod pyproject.toml 2>/dev/null
+# Spot project files, package manifests, and config roots
+ls package.json Cargo.toml go.mod pyproject.toml 2>/dev/null
 ```
 
 ### 1.2 Read entry points and manifests
 Read these files fully — they reveal the stack, dependencies, and runtime topology:
-- `.sln`, `*.csproj` — .NET project graph and package refs
+- `Cargo.toml`, `go.mod`, `pyproject.toml` — project graph and package refs
 - `package.json` / `package-lock.json` — JS/TS stack
 - `Dockerfile`, `docker-compose.yml` — service topology
-- `appsettings.json`, `.env.example` — configuration shape
-- `Program.cs` or equivalent app entry — DI registration, middleware pipeline
+- `.env.example`, config files — configuration shape
+- The app entry point (`main.*`, `index.*`, or equivalent) — DI registration, middleware pipeline
 - `README.md` — stated purpose and dev commands
 
 ### 1.3 Map the layers
@@ -51,11 +51,11 @@ For each project/module/package, identify:
 
 Use targeted reads rather than reading every file:
 ```bash
-# Find all interfaces (C#)
-grep -r "public interface " --include="*.cs" -l
+# Find all interfaces (TypeScript)
+grep -r "export interface " --include="*.ts" -l
 
-# Find all controllers
-find . -name "*Controller.cs"
+# Find all route handlers
+find . -name "*.routes.*" -o -name "*handler*"
 
 # Find all React feature folders
 find src/features -maxdepth 1 -type d

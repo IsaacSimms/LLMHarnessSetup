@@ -44,8 +44,8 @@ Choose build and test commands from repo docs first (`README`, `CLAUDE.md`, and 
 
 If the docs name nothing, use the first matching default:
 
-- C# / .NET (`*.sln` or `*.csproj`): `dotnet build`, then `dotnet test`. Narrow with a filter if the focus area names a test project or class.
-- PowerShell (`*Tests.ps1` or a Pester layout): Invoke-Pester, or the project script.
+- Go (`go.mod`): `go build ./...`, then `go test ./...`. Narrow with a filter if the focus area names a test project or class.
+- Shell (`*.bats` or a test layout): bats, or the project script.
 - Node (`package.json` test script): `npm test`.
 - Python: `pytest`, or the project script.
 

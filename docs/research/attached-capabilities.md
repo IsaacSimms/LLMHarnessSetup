@@ -71,7 +71,7 @@ Four attachables clear the bar. The largest is a read-only session for grill and
 - Treating Claude Code's plan-approval button as this harness's implement permission. Approval exits plan mode and starts editing. The useful part is the block while the mode stays on, which is already inside rank 1.
 - A `stop` hook that launches check-work. `followup_message` auto-submits the next user message, which collides with "offer check-work rather than auto-run."
 - A global before-shell prompt hook that allows only read-only commands. Cursor documents that pattern. Applied to every session, it blocks the test commands `tdd` and `check-work` run.
-- `permissions.json` terminal allowlists for `dotnet test` and peers. That removes an approval prompt. The standing rule wants explicit approval, and interactive CLI already asks before shell commands. This is a convenience, not a spine failure.
+- `permissions.json` terminal allowlists for the project test command and peers. That removes an approval prompt. The standing rule wants explicit approval, and interactive CLI already asks before shell commands. This is a convenience, not a spine failure.
 - Custom slash commands and Custom Mode that only pin an existing skill. The CLI already puts skills on the `/` menu. That is skill text staying loaded.
 - Cursor's built-in Explore and Browser subagents, and Grok's built-in `explore` type. They are already on. `improve-codebase-architecture` already points at Explore.
 - MCP servers, including auto-approving them with `--approve-mcps`. No server found in this pass maps to a spine step. Auto-approval widens a gate the research skill tells the agent to refuse.

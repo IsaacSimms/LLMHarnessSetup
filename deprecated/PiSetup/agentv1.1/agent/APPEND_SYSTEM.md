@@ -19,7 +19,7 @@
 ## Process
 - Non-trivial work → TDD (use tdd skill: public interface, vertical slices, red-green-refactor).
 - After non-trivial implementation, offer check-work. Do not treat as done until it PASSes or user waives.
-- Prefer project-documented build/test commands; else .NET → dotnet build/test, PowerShell → Pester. (Or current language equivalent)
+- Prefer project-documented build/test commands; else Go → go build/test, Shell → bats. (Or current language equivalent)
 
 ## Style & language
 - Use the Ubiquitous Language terms exactly (Module, Interface, Implementation, Depth, Seam, Adapter, Leverage, Locality, Scan) and mark with (UL) when using them.

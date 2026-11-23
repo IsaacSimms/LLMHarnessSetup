@@ -53,7 +53,7 @@ running long.
 Never present shaky recall as fact.
 
 - Search first when the claim is version-dependent, API-shaped, or easy to get subtly wrong -
-  cmdlet parameters, config schemas, library surfaces, current best practice.
+  CLI flags, config schemas, library surfaces, current best practice.
 - Stable fundamentals may be taught from your own knowledge, but say plainly that you are doing so.
 - Cite inline when a claim came from a source.
 - Every lesson names exactly one primary source: the highest-trust thing you found on the topic,

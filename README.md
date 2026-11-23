@@ -11,7 +11,7 @@ This repo is the source of truth I keep up to date and copy into `~/.claude/` on
 |--------|------|
 | **Global instructions** (`CLAUDE.md`) | Standing rules: coding style, approvals, plan mode, TDD, ubiquitous language (depth, seams, modules), workflow. Installed as `~/.claude/CLAUDE.md`. |
 | **Skills** (`<skill>.md` at the repo root, plus `improve-codebase-architecture/`) | On-demand playbooks, loaded from `~/.claude/skills/<skill>/SKILL.md`. |
-| **Subagents** (`Subagents/*.md`) | `researcher`, `verifier-check`, and `readability-verifier`. Loaded from `~/.claude/agents/`. |
+| **Subagents** (`Subagents/*.md`) | `researcher`, `verifier-check`, `content-conflict-resolver`, `readability-verifier`, and `tdd`. Loaded from `~/.claude/agents/`. |
 | **IDE setups** (`IDE setups/vscode`; Cursor config is in `deprecated/cursor`) | User settings, keybindings, and extension ids for a new machine. See `IDE setups/README.md`. |
 
 Agents should **not** invent parallel processes when a skill already covers the job.
@@ -132,7 +132,7 @@ The full rules live in `CLAUDE.md`. Non-negotiables:
 - **Ubiquitous language:** Module, Interface, Implementation, Depth, Seam, Adapter, Leverage, Locality, Scan — mark `(UL)` when using these terms  
 - **Pushback** when wrong; no empty affirmations; concise  
 - **Comments:** title blocks + useful comments on sizable/unique code; don’t narrate the obvious  
-- **Stack defaults:** prefer project scripts; else `verifier-check` defaults: .NET → `dotnet build`/`test`, PowerShell → Pester, Node → `npm test`, Python → pytest  
+- **Stack defaults:** prefer project scripts; else `verifier-check` defaults: Go → `go build`/`go test`, Shell → bats, Node → `npm test`, Python → pytest  
 
 ---
 

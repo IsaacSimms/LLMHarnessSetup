@@ -161,6 +161,6 @@ Do not dump a wall of raw logs unless needed for evidence; keep exact failing co
 ## Notes on quality
 
 - Prefer **fewer, deeper** tests as evidence — not coverage theater.
-- PowerShell and C# are first-class; do not treat scripts as “untestable” by default.
+- Shell scripts and compiled languages are first-class; do not treat scripts as “untestable” by default.
 - This skill does not replace TDD during build; it **verifies** after a slice.
 - Explicit user waiver (“skip verify”, “don't check-work”) is honored and stated in the report.

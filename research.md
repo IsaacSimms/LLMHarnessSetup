@@ -87,11 +87,19 @@ Each wayfinder research ticket is its own `researcher` invocation, with its own 
 
 If `researcher` is not installed, say so and stop.
 
+## Conflict pass
+
+When `researcher` returns, invoke `content-conflict-resolver` (`subagent_type:
+content-conflict-resolver`) on every findings file from the run, passing their paths. It runs in
+the foreground and finishes before the readability pass starts. Run it even when the run produced
+one file. It applies to agent-audience files too.
+
 ## Readability pass
 
-When `researcher` returns, invoke `readability-verifier` (`subagent_type: readability-verifier`) on
-the findings file path. It runs in the foreground. This is the last pass over the file: the
-research is not complete, and no ticket is closed or answer given, until it returns.
+When the conflict pass returns, invoke `readability-verifier` (`subagent_type:
+readability-verifier`) on the findings file path. It runs in the foreground. This is the last pass
+over the file: the research is not complete, and no ticket is closed or answer given, until it
+returns.
 
 Skip this pass for any file whose audience is an agent (see Audience). That file is meant to be
 long and dense, and the pass would undo it.

@@ -137,9 +137,9 @@ Skip only for pure non-code Q&A with no file or operational deliverable.
    CLAUDE.md, GROK.md, package scripts) when they define the canonical command.
 
    Detection defaults (use when docs don't specify):
-   - C# / .NET: *.sln or *.csproj → `dotnet build`, then `dotnet test`
+   - Go: go.mod → `go build ./...`, then `go test ./...`
      (narrow with filter if focus area names a test project/class).
-   - PowerShell: *Tests.ps1 / Pester layout → Invoke-Pester (or project script).
+   - Shell: *.bats layout → bats (or project script).
    - Node: package.json test/build scripts when present.
    - Python: pytest / project script when present.
    - Other: follow README; if nothing exists, do not invent a green suite.
@@ -274,6 +274,6 @@ Do not dump a wall of raw logs unless needed for evidence; keep exact failing co
 ## Notes on quality
 
 - Prefer **fewer, deeper** tests as evidence — not coverage theater.
-- PowerShell and C# are first-class; do not treat scripts as “untestable” by default.
+- Shell scripts and compiled languages are first-class; do not treat scripts as “untestable” by default.
 - This skill does not replace TDD during build; it **verifies** after a slice.
 - Explicit user waiver (“skip verify”, “don't check-work”) is honored and stated in the report.

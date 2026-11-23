@@ -129,20 +129,20 @@ Internal structure is not sacred; the interface's tests staying green is.
 
 Principles are language-agnostic. Map the runner to the stack:
 
-- **C#**: xUnit `[Fact]`/`[Theory]`, FluentAssertions, constructor injection at system boundaries
+- **Go**: `testing` package, table-driven tests, interfaces at system boundaries
 - **TypeScript/JS**: `test()`/`it()`, project assertion lib; same public-interface rules
 - **Python**: pytest; test public functions/modules, not private `_helpers` unless that *is* the product
 
 ---
 
-## Scripting Languages (PowerShell, Bash, Python CLIs, etc.)
+## Scripting Languages (Bash, Python CLIs, etc.)
 
 TDD still applies; the public interface looks different.
 
-- **Interface** = what callers observe: exported functions/cmdlets, parameters, return values/objects, stdout/stderr/exit codes — not private helpers or line-by-line control flow.
+- **Interface** = what callers observe: exported functions/commands, parameters, return values/objects, stdout/stderr/exit codes — not private helpers or line-by-line control flow.
 - Prefer vertical slices: one behavior (e.g. "rejects missing path with non-zero exit") → minimal implementation → next behavior.
-- Side effects (files, registry, network): assert outcomes via temp fixtures, or fake only at real external seams. Do not mock every internal call.
+- Side effects (files, system config, network): assert outcomes via temp fixtures, or fake only at real external seams. Do not mock every internal call.
 - One-shot glue with no reuse: skip heavy TDD. If logic will grow, extract a testable module first and drive *that* with red-green-refactor.
-- **PowerShell**: Pester. Same rules as xUnit — behavior names, public surface only.
+- **Shell**: bats, or the project runner. Same rules as the unit-test stacks above — behavior names, public surface only.
 
 Characterization note: for untested legacy scripts, pin current behavior with a failing-or-passing snapshot test first, then change — don't invent the ideal API in the dark.

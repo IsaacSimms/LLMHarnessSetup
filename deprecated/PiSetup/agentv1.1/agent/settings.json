@@ -4,7 +4,6 @@
   "defaultProvider": "xai",
   "defaultModel": "grok-4.5",
   "packages": [
-    "npm:pi-powershell",
     "npm:pi-image-paste",
     "npm:@rhedbull/pi-permissions"
   ]

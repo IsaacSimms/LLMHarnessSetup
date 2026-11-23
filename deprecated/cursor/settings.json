@@ -36,18 +36,6 @@
 "terminal.integrated.initialHint": false,
 "workbench.editor.empty.hint": "hidden",
 "editor.lineNumbers": "relative",
-"terminal.integrated.profiles.windows": {
-  "x64 Native Tools": {
-    "source": "PowerShell",
-    "icon": "terminal-powershell",
-    "args": [
-      "-NoExit",
-      "-Command",
-      "& 'C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\Common7\\Tools\\Launch-VsDevShell.ps1' -Arch amd64 -HostArch amd64 -SkipAutomaticLocation"
-    ]
-  }
-},
-"terminal.integrated.defaultProfile.windows": "x64 Native Tools",
 "editor.inlineSuggest.enabled": false,
 "xgrok.defaultModel": "grok-4.6",
 "security.workspace.trust.untrustedFiles": "open",
