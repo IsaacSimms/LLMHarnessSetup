@@ -20,6 +20,10 @@ Agents should **not** invent parallel processes when a skill already covers the 
 
 ## Install / sync
 
+The layout, filenames, frontmatter, and tool names in this repo use **Claude Code** as the reference example.
+
+### Claude Code (reference)
+
 Copy (or symlink) into `~/.claude/`:
 
 ```text
@@ -30,6 +34,15 @@ Subagents/*.md                 →  ~/.claude/agents/*.md
 ```
 
 **Policy:** Repo `CLAUDE.md` and `~/.claude/CLAUDE.md` stay **fully identical**. Installed skills stay **fully identical** to the repo. After editing a root `<skill>.md`, copy it to `~/.claude/skills/<skill>/SKILL.md`. After editing `improve-codebase-architecture/`, copy that folder to `~/.claude/skills/improve-codebase-architecture/`. Subagents load from `~/.claude/agents/`, not from this repo's `Subagents/` folder. After editing a file there, copy it to `~/.claude/agents/`. `~/.claude/skills/synced/` is managed by the app. Leave it alone.
+
+### Installing for another harness
+
+When installing or syncing this repo into a different coding agent or toolset (for example Antigravity/`agy`, Codex, Cursor, etc.), **prompt a model to adapt what is required to match the target harness's architecture** rather than copying files verbatim. Specifically, have it translate:
+
+- **Install locations & layout:** global instructions file, skills directory, and subagent directory or discovery manifests (e.g. `~/.gemini/config/` for `agy`).
+- **Tool names & schemas:** interactive question picker (`AskUserQuestion`), subagent invocation (`Agent` / `subagent_type`), and built-in explorer subagent names (`Explore`) to whatever the target harness exposes.
+- **Frontmatter & instruction-file lists:** harness-specific YAML keys on skills/subagents (`background`, `disable-model-invocation`, `argument-hint`, etc.) and project instruction filenames referenced in skills (`CLAUDE.md`, `AGENTS.md`, `GEMINI.md`, `.agents/rules/`).
+- **Execution semantics & collisions:** foreground vs. async subagent ordering and any overlap with the target harness's built-in slash commands or subagent names.
 
 ---
 
